@@ -15,6 +15,14 @@ module.exports = {
     const Users = []
 
       Users.push({
+          firstName : "Admin",
+          lastName : "Admin",
+          email : "admin@gmail.com",
+          password : "test",
+          roleId : 1,
+          createdAt : new Date(),
+          updatedAt : new Date()
+      },{
         firstName : "John",
         lastName : "Doe",
         email : "jd@gmail.com",
@@ -23,19 +31,11 @@ module.exports = {
         createdAt : new Date(),
         updatedAt : new Date()
       },{
-      firstName : "Joe ",
-          lastName : "Producteur",
+      firstName : "Daniel ",
+          lastName : "Hoarau",
           email : "producteurd@gmail.com",
           password : "test",
           roleId : 3,
-          createdAt : new Date(),
-          updatedAt : new Date()
-    },{
-      firstName : "Joe ",
-          lastName : "Producteur",
-          email : "admin@gmail.com",
-          password : "test",
-          roleId : 1,
           createdAt : new Date(),
           updatedAt : new Date()
     })
