@@ -178,7 +178,7 @@ export default {
         {title: 'Produit', path: '/mystore'},
         {title: 'Mes commandes', path: '/order'},
       ],
-      isLogged: tokenConfig.getToken()
+
     }
   },
   components: {
@@ -205,7 +205,9 @@ export default {
       'getProductsInCart',
 
     ]),
-
+    isLogged() {
+      return this.$store.getters.getUserToken
+    }
   },
 
 };

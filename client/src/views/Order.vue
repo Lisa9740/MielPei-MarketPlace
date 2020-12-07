@@ -13,12 +13,16 @@
 
 <script>
 import CartCheckout from '../components/CartCheckout.vue';
-import tokenConfig from "@/utils/tokenConfig";
+
 import Login from './login/Login.vue'
 export default {
   components: {CartCheckout,Login},
   data: () => ({
-    isLogged: tokenConfig.getToken()
+
   })
+  , computed: {
+    isLogged() {
+      return this.$store.getters.getUserToken    }
+  }
 }
 </script>

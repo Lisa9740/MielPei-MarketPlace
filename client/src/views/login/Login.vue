@@ -9,6 +9,7 @@
             <h2 class="text-center">Veuillez vous connectez </h2>
             <v-form ref="form" v-model="valid" lazy-validation >
               <v-text-field
+                  color="#1b3043"
                   v-model="email"
                   :rules="emailRules"
                   label="Adresse e-mail"
@@ -17,6 +18,7 @@
               ></v-text-field>
 
               <v-text-field
+                  color="#1b3043"
                   v-model="password"
                   :rules="passwordRule"
                   label="Mot de passe"

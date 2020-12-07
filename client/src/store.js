@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from "axios";
+import tokenConfig from "@/utils/tokenConfig";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        isLogged: tokenConfig.getToken(),
         products: [],
         cartProducts: [],
         currentProduct: {},
@@ -14,6 +16,7 @@ export default new Vuex.Store({
     },
 
     getters: {
+        getUserToken: state => state.isLogged,
         getProducts: state => state.products,
         getProductsInCart: state => state.cartProducts,
         getCurrentProduct: state => state.currentProduct,

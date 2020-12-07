@@ -5,18 +5,18 @@ import Users from './views/admin/Users.vue';
 import myStore from './components/ListProduct.vue';
 import Order from './views/Order.vue'
 import Login from './views/login/Login.vue'
-import tokenConfig from "./utils/tokenConfig";
+//import tokenConfig from "./utils/tokenConfig";
 
 Vue.use(VueRouter);
 
-
-// // check if is not authenticated
-// const isNotAuthenticated = (to, from, next) => {
-//     if (!tokenConfig.getToken()) {
-//         return location.href = '/login'
-//     }
-//     next()
-// }
+/*
+ //check if is not authenticated
+ const isNotAuthenticated = (to, from, next) => {
+     if (!tokenConfig.getToken()) {
+         return location.href = '/login'
+     }
+     next()
+ }
 
 // check if user is connected
 const isAuthenticated = (to, from, next) => {
@@ -25,6 +25,7 @@ const isAuthenticated = (to, from, next) => {
     }
     next()
 }
+*/
 
 
 const router = new VueRouter({
@@ -34,13 +35,13 @@ const router = new VueRouter({
             path: '/login',
             name: 'login',
             component: Login,
-            beforeEnter: isAuthenticated
+
         },
         {
         path: '/',
         name: 'home',
         component: Home,
-            beforeEnter: isAuthenticated
+
     },
         {
             path: '/users',
@@ -51,13 +52,13 @@ const router = new VueRouter({
             path: '/mystore',
             name: 'mystore',
             component: myStore,
-            beforeEnter: isAuthenticated
+
         },
         {
             path: '/order',
             name: 'order',
             component: Order,
-            beforeEnter: isAuthenticated
+
         },
 
     ]
