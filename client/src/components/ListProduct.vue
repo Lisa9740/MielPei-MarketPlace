@@ -1,8 +1,9 @@
 
 
 <template>
+  <v-container>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+
     <v-row>
       <v-col v-for='product in products[0]' :key='product.id'>
         <v-card>
@@ -20,6 +21,7 @@
       </v-col>
     </v-row>
   </div>
+  </v-container>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 
 <template>
-  <button class="btn btn-large btn-info">
+  <button class="ml-5 btn btn-medium btn-info">
     <slot></slot>
     <img v-if="cartIcon" src="../assets/cart.svg" alt="Cart Icon">
   </button>
@@ -33,7 +33,7 @@ export default {
   padding: .7em 5em;
 }
 .btn-info {
-  background-color: #2D9CDB;
+  background-color: #fdae2a;
 }
 .btn-sucess {
   background-color: #27AE60;

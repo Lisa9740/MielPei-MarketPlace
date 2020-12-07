@@ -5,18 +5,22 @@
         <li v-for="(product, index) in getProductsInCart" :key="index" class="checkout-product">
           <img :src="product.image" alt="" class="product-image">
           <h3 class="product-name">{{ product.description }}</h3>
-          <span class="product-price">R$ {{ product.price }},00 </span>
+          <span class="product-price"> {{ product.price }},00 €</span>
           <button class="product-remove" @click="remove(index)">X</button>
         </li>
       </transition-group>
     </ul>
+
     <div v-if="!hasProduct()" class="checkout-message">
-      <h3>No products...</h3>
-      <router-link to="./">Back to list of products</router-link>
+      <h3>Oups, il n'y a pas encore de produit...</h3>
+      <router-link to="./">Retour à l'accueil</router-link>
     </div>
     <h3 class="total" v-if="hasProduct()">
-      Total: R$ {{ totalPrice() }}, 00
+      Total: {{ totalPrice() }}, 00 €
     </h3>
+    <v-btn>
+    Commander
+  </v-btn>
   </div>
 </template>
 
