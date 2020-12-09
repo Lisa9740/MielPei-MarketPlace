@@ -89,57 +89,17 @@
         </router-link>
       </v-toolbar-items>
       <v-toolbar-items class="hidden-xs-only">
-
-        <v-dialog
-            v-model="dialog"
-            fullscreen
-            hide-overlay
-            transition="dialog-bottom-transition"
+        <v-btn
+            color="#EDBE58"
+            class="mr-4"
+            @click.stop="drawer = !drawer"
+            text
         >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-                color="#EDBE58"
-                class="mr-4"
-                v-bind="attrs"
-                v-on="on"
-                text
-            >
-              <img src="../../assets/cart.svg" class="w-img">
-              <span class="btn-circle" v-if="hasProduct()">
-                          {{ getProductsInCart.length }}
+          <img src="../../assets/cart.svg" class="w-img">
+          <span class="btn-circle" v-if="hasProduct()">
+                          {{ getCart.length }}
                     </span>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-toolbar
-                dark
-                color="#1b3043"
-            >
-              <v-btn
-                  icon
-                  dark
-                  @click="dialog = false"
-              >
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-              <v-toolbar-title>Mon Panier</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-toolbar-items>
-
-                <v-btn
-                    dark
-                    text
-                    @click="dialog = false"
-                >
-                  Commander
-                </v-btn>
-              </v-toolbar-items>
-            </v-toolbar>
-            <CartCheckout/>
-            <v-divider></v-divider>
-
-          </v-card>
-        </v-dialog>
+        </v-btn>
       </v-toolbar-items>
 
       <v-toolbar-items class="hidden-xs-only">
@@ -153,6 +113,28 @@
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
+    <v-navigation-drawer
+        right
+        v-model="drawer"
+        width="350px"
+        absolute
+        temporary
+    >
+      <v-list-item>
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>John Leider</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+          <CartCheckout/>
+
+    </v-navigation-drawer>
 
   </div>
 </template>
@@ -165,6 +147,7 @@ export default {
   name: "Navbar",
   data() {
     return {
+      drawer: null,
       dialog: false,
       notifications: false,
       sound: true,
@@ -194,7 +177,7 @@ export default {
       // this.$router.push('/connexion');
     },
     hasProduct() {
-      return this.getProductsInCart.length > 0;
+      return this.getCart.length > 0;
     },
     showPopupCart() {
       this.showOrHiddenPopupCart();
@@ -202,7 +185,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getProductsInCart',
+      'getCart',
 
     ]),
     isLogged() {

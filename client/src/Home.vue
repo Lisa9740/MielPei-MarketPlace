@@ -1,7 +1,7 @@
 <template>
 
   <v-container>
-    <h1 class="mb-5 mt-5">Bienvenue à MielPéi!</h1>
+    <h1 class="mb-5 mt-5">Bienvenue à MielPéi! {{user}}</h1>
     <v-row>
       <v-col cols="6" class="pa-6">
         <MapExploitation/>
@@ -32,25 +32,35 @@
                 height="140"
                 src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
             ></v-img>
-            <v-row justify="center">
+
+              <v-card-title>{{ product.name }}</v-card-title>
               <v-card-text>
                 <strong>{{ product.price }}  </strong> € •
-                {{ product.description }}
+                <v-row
+                    align="center"
+                    class="mx-0"
+                >
+                  <v-rating
+                      :value="4.5"
+                      color="amber"
+                      dense
+                      half-increments
+                      readonly
+                      size="14"
+                  ></v-rating>
 
-              <v-rating
-                  :value="4.5"
-                  color="amber"
-                  dense
-                  half-increments
-                  readonly
-                  size="14"
-              ></v-rating>
+                  <div class="grey--text ml-4">
+                    4.5 (413)
+                  </div>
+                </v-row>
+
               </v-card-text>
-            </v-row>
-            <CartButton :cartIcon="true" @click.native="addProductToCart(product)"/>
-
+            <v-card-actions>
+              <CartButton :cartIcon="true" @click.native="addProductToCart(product)"/>
+            </v-card-actions>
           </v-card>
         </v-col>
+
       </v-row>
     </v-container>
   </v-container>
@@ -69,10 +79,13 @@
 import CartButton from "./components/CartButton";
 import {mapActions} from "vuex";
 import MapExploitation from "./components/MapExploitation";
+import userConfig from "@/utils/userConfig";
 
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    user: userConfig.getUser()
+  }),
   components: {
     CartButton,
     MapExploitation
@@ -80,24 +93,25 @@ export default {
   computed: {
     products() {
       return this.$store.state.products
-    }
+    },
+
+
   },
 
   methods: {
     ...mapActions([
-      'addProduct',
+      'addProductToCart',
       'currentProduct',
     ]),
-    addProductToCart(product) {
-      this.addProduct(product);
-    },
+
     addCurrentProduct(product) {
       this.currentProduct(product);
     },
 
   },
   mounted() {
-    this.$store.dispatch("getProduct");
+    this.$store.dispatch("getProducts");
+
 
   },
 }

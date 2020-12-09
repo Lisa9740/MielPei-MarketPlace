@@ -2,25 +2,31 @@
   <div class="checkout-box">
     <ul class="checkout-list">
       <transition-group name="fade">
-        <li v-for="(product, index) in getProductsInCart" :key="index" class="checkout-product">
-          <img :src="product.image" alt="" class="product-image">
-          <h3 class="product-name">{{ product.description }}</h3>
-          <span class="product-price"> {{ product.price }},00 €</span>
+        <li v-for="(product, index) in getCart" :key="index" class="checkout-product">
+<!--          <img :src="product.image" alt="" class="product-image">-->
+          <span >{{ product.name }}</span>
+          <span > {{ product.price }},00 €</span>
           <button class="product-remove" @click="remove(index)">X</button>
         </li>
       </transition-group>
     </ul>
 
-    <div v-if="!hasProduct()" class="checkout-message">
-      <h3>Oups, il n'y a pas encore de produit...</h3>
-      <router-link to="./">Retour à l'accueil</router-link>
+    <div v-if="!hasProduct()" class="text-center">
+      <span>Oups, il n'y a pas encore de produit...</span>
+
     </div>
     <h3 class="total" v-if="hasProduct()">
       Total: {{ totalPrice() }}, 00 €
     </h3>
-    <v-btn>
+    <router-link
+      to="/order"
+      >
+    <v-btn
+        v-if="hasProduct()"
+    >
     Commander
   </v-btn>
+    </router-link>
   </div>
 </template>
 
@@ -30,7 +36,7 @@ export default {
   name: "CartCheckout",
   computed: {
     ...mapGetters([
-      'getProductsInCart',
+            'getCart'
     ]),
   },
   methods: {
@@ -38,16 +44,17 @@ export default {
       'removeProduct',
     ]),
     hasProduct() {
-      return this.getProductsInCart.length > 0;
+      return this.getCart.length > 0;
     },
     totalPrice() {
-      return this.getProductsInCart.reduce((current, next) =>
+      return this.getCart.reduce((current, next) =>
           current + next.price, 0);
     },
     remove(index) {
       this.removeProduct(index);
     },
   },
+
 };
 </script>
 
@@ -86,11 +93,11 @@ export default {
   box-sizing: border-box;
 }
 .product-price {
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: bold;
 }
 .product-remove {
-  width: 25px;
+  width: 20px;
   height: 25px;
   border-radius: 50%;
   border: 0;
@@ -99,7 +106,7 @@ export default {
   cursor: pointer;
 }
 .total {
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
   align-self: flex-end;
 }
