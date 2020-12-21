@@ -1,6 +1,7 @@
 const db = require("../models");
 const config = require("../config/authConfig");
 const User = db.User;
+const Cart = db.Cart;
 
 
 const jwt = require("jsonwebtoken");
@@ -20,7 +21,6 @@ exports.login = (req, res) => {
         }
 
         bcrypt.compare(req.body.password, user.password, (err, result) => {
-
             if (err) {
                 return res.json({
                     message: "Auth failed. Check email and password"
@@ -34,8 +34,8 @@ exports.login = (req, res) => {
 
                 res.status(200).send({
                     id: user.id,
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
                     token : token
                 });
             }
@@ -47,6 +47,8 @@ exports.login = (req, res) => {
 }
 
 exports.register = (req, res) => {
+    // TODO : création d'un panier lors de l'enregistrement d'un utilisateur
+    const {cartProducts} = req.body
     // Save User to Database
     User.create({
         firstName: req.body.firstName,
@@ -60,7 +62,6 @@ exports.register = (req, res) => {
                 let token = jwt.sign({ id: user.id }, config.secret, {
                     expiresIn: 86400 // 24 hours
                 });
-
                 res.status(200).send({
                     id: user.id,
                     firstName: req.body.firstName,

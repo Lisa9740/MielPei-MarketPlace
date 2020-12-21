@@ -8,7 +8,7 @@ const Role = db.Role
 // Retrieve all Computers from the database.
 exports.findAll = (req, res) => {
     Product.findAll({
-        attributes: ['id', 'price', 'quantity', 'description', 'exploitationId'],
+        attributes: ['id', 'name','price', 'quantity', 'description', 'exploitationId'],
         include: [
             {
                 model: Exploitation,
