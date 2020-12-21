@@ -27,6 +27,13 @@ module.exports = {
           key: "id"
         }
       },
+      cartId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Carts",
+          key: "id"
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
