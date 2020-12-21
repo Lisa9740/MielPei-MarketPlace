@@ -6,6 +6,7 @@ module.exports = {
 
     for (let i=0; i < 10; i++){
       Products.push({
+        name: "Pot de Miel" + i,
         price: 80,
         quantity: 1000,
         description: "hjkhkjhkhkghk",
