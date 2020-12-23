@@ -21,4 +21,8 @@ router.get('/:id/cart', cart.cart);
 
 router.post('/order', order.create);
 
+router.get("/:userId/order", order.getUserOrder);
+
+router.post('/order/payment', order.setUserOrderPaid);
+
 module.exports = router;
