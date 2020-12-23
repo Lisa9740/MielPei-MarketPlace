@@ -6,22 +6,25 @@
 
           <span >{{ product.name }}</span>
           <span > {{ product.price }},00 €</span>
-          <v-text-field
-              :value="product.quantity"
-          >
-            <v-icon
-                slot="append"
-                color="red"
-            >
-              mdi-plus
-            </v-icon>
+          <v-span>
             <v-icon
                 slot="prepend"
-                color="green"
+                color="red"
+                @click.native="unsetProductQuantityInCart(product)"
             >
               mdi-minus
             </v-icon>
-          </v-text-field>
+
+            {{ product.quantity }}
+
+            <v-icon
+                slot="append"
+                color="green"
+                @click.native="setProductQuantityInCart(product)"
+            >
+              mdi-plus
+            </v-icon>
+          </v-span>
           <button class="product-remove" @click="remove(index)">X</button>
         </li>
       </transition-group>

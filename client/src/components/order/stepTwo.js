@@ -40,6 +40,9 @@ export default {
         getSelectedValue(v) {
             this.selected = v;
         },
+        update(adresse) {
+            this.isAdding = adresse
+        },
 
         async postOrderData() {
             let isReady = this.$refs.orderForm.validate();

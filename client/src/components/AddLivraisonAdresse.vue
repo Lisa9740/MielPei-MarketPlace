@@ -29,6 +29,7 @@ import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 
 export default {
+  props: ['isAdding'],
   data: () => ({
     valid: true,
     livraisonData: [],
@@ -45,6 +46,12 @@ export default {
     }
   }),
   methods : {
+    backToSelectedAdresse() {
+      let isAdding = this.isAdding;
+      isAdding = false
+      this.$emit("change-state", isAdding)
+
+    },
     async validate() {
       let isReady = this.$refs.addressForm.validate();
       let dataSend = {
@@ -59,6 +66,7 @@ export default {
         const connectInfo = await Axios.post('http://127.0.0.1:4000/api/livraison', dataSend);
         console.log(connectInfo);
         this.$emit('add', connectInfo.data)
+        this.backToSelectedAdresse()
         this.flashMessage.success({
           message: connectInfo.data.message,
           time: 5000,

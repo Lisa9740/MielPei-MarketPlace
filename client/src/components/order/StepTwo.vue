@@ -44,7 +44,7 @@
     </v-card>
 
     <v-container v-if="isAdding">
-      <AddLivraisonAdresse @add="addLivraison"/>
+      <AddLivraisonAdresse :isAdding="isAdding" @change-state="update" @add="addLivraison"/>
     </v-container>
   </div>
 

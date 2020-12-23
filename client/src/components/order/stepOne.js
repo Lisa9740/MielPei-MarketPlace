@@ -17,6 +17,9 @@ export default {
     methods: {
         ...mapActions([
             'removeProduct',
+            'setProductQuantityInCart',
+            'unsetProductQuantityInCart',
+
         ]),
         nextStep() {
             let etape = this.e1;

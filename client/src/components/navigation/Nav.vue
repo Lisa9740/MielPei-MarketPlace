@@ -27,6 +27,7 @@
 			<span class="hidden-sm-and-up">
 				<v-app-bar-nav-icon @click="sidebar = !sidebar"> </v-app-bar-nav-icon>
 			</span>
+
       <v-toolbar-title>
         <router-link
             to="/"
@@ -61,7 +62,9 @@
           </div>
         </router-link>
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
+
       <v-toolbar-items class="hidden-xs-only">
         <v-btn
             color="#EDBE58"
@@ -73,8 +76,8 @@
         >
           {{ item.title }}
         </v-btn>
-
       </v-toolbar-items>
+
       <v-toolbar-items class="hidden-xs-only">
         <router-link
             to="/login"
@@ -88,6 +91,7 @@
           </v-btn>
         </router-link>
       </v-toolbar-items>
+
       <v-toolbar-items class="hidden-xs-only">
         <v-btn
             color="#EDBE58"
@@ -97,49 +101,65 @@
         >
           <img src="../../assets/cart.svg" class="w-img">
           <span class="btn-circle" v-if="hasProduct()">
-                          {{ getCart.length }}
-                    </span>
+            {{ getCart.length }}
+          </span>
         </v-btn>
       </v-toolbar-items>
 
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn icon color="white">
+        <v-menu
+            offset-y
+        >
+        <template v-slot:activator="{ on, attrs }">
+        <v-btn icon
+               color="white"
+               v-bind="attrs"
+               v-on="on"
+        >
           <v-icon>mdi-wrench</v-icon>
         </v-btn>
+        </template>
+          <v-list>
+            <v-list-item  v-for="item in menuAdminItems"
+                          :key="item.title"
+                          :to="item.path">
+
+              <v-list-item-title >{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+
+        </v-menu>
       </v-toolbar-items>
+
       <v-toolbar-items class="hidden-xs-only">
         <v-btn v-if="isLogged" icon color="white" @click="disconnected">
           <v-icon>mdi-logout</v-icon>
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
+
+
     <v-navigation-drawer
         right
         v-model="drawer"
         width="350px"
+        mandatory
         absolute
-        temporary
     >
-      <v-list-item>
-        <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-        </v-list-item-avatar>
-
-        <v-list-item-content>
-          <v-list-item-title>John Leider</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-          <CartCheckout/>
-
+      <CartCheckout/>
+      <router-link
+          to="/order"
+      >
+        <v-btn v-if="hasProduct()">
+          Commander
+        </v-btn>
+      </router-link>
     </v-navigation-drawer>
 
   </div>
 </template>
 <script>
-import CartCheckout from "@/components/CartCheckout";
+import CartCheckout from "@/components/order/CartCheckout";
 import {mapGetters, mapActions} from "vuex";
 import tokenConfig from "@/utils/tokenConfig";
 
@@ -147,6 +167,7 @@ export default {
   name: "Navbar",
   data() {
     return {
+      menu: false,
       drawer: null,
       dialog: false,
       notifications: false,
@@ -161,6 +182,10 @@ export default {
         {title: 'Produit', path: '/mystore'},
         {title: 'Mes commandes', path: '/order'},
       ],
+      menuAdminItems: [
+        {title: 'Accèder à mon dashboard', path: '/admin/dashboard'},
+        {title: 'Accèder à mon espace', path: '/producteur/dashboard'},
+      ],
 
     }
   },
@@ -174,7 +199,6 @@ export default {
     disconnected() {
       tokenConfig.removeToken();
       location.href = '/';
-      // this.$router.push('/connexion');
     },
     hasProduct() {
       return this.getCart.length > 0;

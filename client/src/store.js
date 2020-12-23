@@ -46,6 +46,24 @@ export default new Vuex.Store({
                 state.cart.push(product);
             }
         },
+        SET_PRODUCT_CART_QUANTITY: (state, product) => {
+            if (state.cart.includes(product)){
+                let index = state.cart.indexOf(product);
+                product.quantity = product.quantity + 1
+                state.cart[index] = product;
+            }
+        },
+        UNSET_PRODUCT_CART_QUANTITY: (state, product) => {
+            if (state.cart.includes(product)){
+                let index = state.cart.indexOf(product);
+                product.quantity = product.quantity - 1
+                state.cart[index] = product;
+
+                if (product.quantity === 0){
+                    state.cart.splice(index, 1);
+                }
+            }
+        },
         REMOVE_PRODUCT: (state, index) => {
             state.cart.splice(index, 1);
         },
@@ -68,6 +86,14 @@ export default new Vuex.Store({
         },
         addProductToCart: (context, product) => {
             context.commit('ADD_PRODUCT_TO_CART', product);
+            context.commit('SAVE_CART');
+        },
+        setProductQuantityInCart: (context, product) => {
+            context.commit('SET_PRODUCT_CART_QUANTITY', product);
+            context.commit('SAVE_CART');
+        },
+        unsetProductQuantityInCart: (context, product) => {
+            context.commit('UNSET_PRODUCT_CART_QUANTITY', product);
             context.commit('SAVE_CART');
         },
         removeProduct: (context, index) => {
