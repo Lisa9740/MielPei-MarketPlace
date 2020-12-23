@@ -11,7 +11,7 @@ export default new Vuex.Store({
 
     state: {
         isLogged: tokenConfig.getToken(),
-        user: userConfig.getUserId(),
+        user: JSON.parse(userConfig.getUser()),
         userData: [],
         products: [],
         cart: cart ? JSON.parse(cart) : [],
@@ -23,13 +23,11 @@ export default new Vuex.Store({
 
     getters: {
         getCart: state => state.cart,
-        getUser: state => state.userData,
         getUserToken: state => state.isLogged,
         getProducts: state => state.products,
         getProductsInCart: state => state.cartProducts,
         getCurrentProduct: state => state.currentProduct,
         getShowModal: state => state.showModal,
-        getPopupCart: state => state.showPopupCart,
     },
 
     mutations: {
@@ -40,7 +38,13 @@ export default new Vuex.Store({
             state.products.push(product);
         },
         ADD_PRODUCT_TO_CART: (state, product) => {
-            state.cart.push(product);
+            if (state.cart.includes(product)){
+                let index = state.cart.indexOf(product);
+                product.quantity = product.quantity + 1
+                state.cart[index] = product;
+            }else{
+                state.cart.push(product);
+            }
         },
         REMOVE_PRODUCT: (state, index) => {
             state.cart.splice(index, 1);
@@ -50,9 +54,6 @@ export default new Vuex.Store({
         },
         SHOW_MODAL: (state) => {
             state.showModal = !state.showModal;
-        },
-        SHOW_POPUP_CART: (state) => {
-            state.showPopupCart = !state.showPopupCart;
         },
     },
 

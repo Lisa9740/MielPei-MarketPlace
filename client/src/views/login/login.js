@@ -39,8 +39,7 @@ export default {
                 if(connectInfo.data.token) {
 
                     tokenConfig.setToken(connectInfo.data.token);
-                    userConfig.setUser(connectInfo.data.user.username)
-                    userConfig.setUserId(connectInfo.data.user.id)
+                    userConfig.setUser(JSON.stringify(connectInfo.data))
                     location.href = '/';
                     // this.$router.push('/');
 
@@ -60,7 +59,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch("getProduct");
+        this.$store.dispatch("getProducts");
 
     },
 }

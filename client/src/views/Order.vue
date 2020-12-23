@@ -1,7 +1,8 @@
 <template>
   <div>
   <v-container v-if="isLogged">
-    <h1>Mes Commandes</h1>
+
+    <h1 class="pa-7">Mes Commandes</h1>
     <template>
       <v-stepper v-model="e1">
         <v-stepper-header>
@@ -9,7 +10,7 @@
               :complete="e1 > 1"
               step="1"
           >
-            Récapitulatif
+            Mon Panier
           </v-stepper-step>
 
           <v-divider></v-divider>
@@ -18,74 +19,45 @@
               :complete="e1 > 2"
               step="2"
           >
-            Paiement
+            Adresse de livraison
           </v-stepper-step>
 
           <v-divider></v-divider>
 
-          <v-stepper-step step="3">
+          <v-stepper-step  :complete="e1 > 3" step="3">
             Confirmation
           </v-stepper-step>
+
+          <v-divider></v-divider>
+
+          <v-stepper-step  step="4">
+            Terminé
+          </v-stepper-step>
+
         </v-stepper-header>
 
         <v-stepper-items>
           <v-stepper-content step="1">
-             <CartCheckout/>
-
-
-            <v-btn
-                color="primary"
-                @click="e1 = 2"
-            >
-              Continue
-            </v-btn>
-
-            <v-btn text>
-              Cancel
-            </v-btn>
+             <CartCheckout :e1="e1" @change-step="update"/>
           </v-stepper-content>
 
           <v-stepper-content step="2">
-            <v-card
-                class="mb-12"
-                color="grey lighten-1"
-                height="200px"
-            ></v-card>
-
-            <v-btn
-                color="primary"
-                @click="e1 = 3"
-            >
-              Continue
-            </v-btn>
-
-            <v-btn text>
-              Cancel
-            </v-btn>
+            <StepTwo :e1="e1" @change-step="update" :orderData="orderData" @order-data="getFinalOrderData" />
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <v-card
-                class="mb-12"
-                color="grey lighten-1"
-                height="200px"
-            ></v-card>
+            <StepThree :e1="e1" :orderData="orderData"  @change-step="update" />
+          </v-stepper-content>
 
-            <v-btn
-                color="primary"
-                @click="e1 = 1"
-            >
-              Continue
-            </v-btn>
-
-            <v-btn text>
-              Cancel
-            </v-btn>
+          <v-stepper-content step="4">
+            <p> Votre commande à été traité !</p>
+            <v-btn> Génerer pdf de votre facture</v-btn>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
     </template>
   </v-container>
+
   <v-container v-if="!isLogged">
     <h1>Mes Commandes</h1>
    <Login/>
@@ -95,16 +67,32 @@
 
 <script>
 import Login from './login/Login.vue'
-import CartCheckout from "@/components/CartCheckout";
+import CartCheckout from "@/components/order/CartCheckout";
+import userConfig from "@/utils/userConfig";
+import StepTwo from "@/components/order/StepTwo";
+import StepThree from "@/components/order/StepThree";
+
+
 export default {
-  components: {Login, CartCheckout},
+  components: {Login, CartCheckout, StepThree, StepTwo},
   data: () => ({
     e1: 1,
-  })
-  , computed: {
+    orderData: [],
+    valid: true,
+    user: JSON.parse(userConfig.getUser()),
+  }),
+  methods: {
+    update(e1){
+      this.e1 = e1;
+    },
+    getFinalOrderData(orderData) {
+        this.orderData = orderData;
+    },
+  },
+  computed: {
     isLogged() {
       return this.$store.getters.getUserToken
     }
-  }
+  },
 }
 </script>

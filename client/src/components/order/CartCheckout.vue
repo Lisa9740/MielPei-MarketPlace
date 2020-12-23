@@ -3,9 +3,25 @@
     <ul class="checkout-list">
       <transition-group name="fade">
         <li v-for="(product, index) in getCart" :key="index" class="checkout-product">
-<!--          <img :src="product.image" alt="" class="product-image">-->
+
           <span >{{ product.name }}</span>
           <span > {{ product.price }},00 €</span>
+          <v-text-field
+              :value="product.quantity"
+          >
+            <v-icon
+                slot="append"
+                color="red"
+            >
+              mdi-plus
+            </v-icon>
+            <v-icon
+                slot="prepend"
+                color="green"
+            >
+              mdi-minus
+            </v-icon>
+          </v-text-field>
           <button class="product-remove" @click="remove(index)">X</button>
         </li>
       </transition-group>
@@ -18,45 +34,15 @@
     <h3 class="total" v-if="hasProduct()">
       Total: {{ totalPrice() }}, 00 €
     </h3>
-    <router-link
-      to="/order"
-      >
-    <v-btn
-        v-if="hasProduct()"
-    >
-    Commander
-  </v-btn>
-    </router-link>
+    <div v-if="e1" class="d-flex">
+      <v-btn v-if="hasProduct()" @click="nextStep">
+        Confimer votre commande
+      </v-btn>
+    </div>
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex';
-export default {
-  name: "CartCheckout",
-  computed: {
-    ...mapGetters([
-            'getCart'
-    ]),
-  },
-  methods: {
-    ...mapActions([
-      'removeProduct',
-    ]),
-    hasProduct() {
-      return this.getCart.length > 0;
-    },
-    totalPrice() {
-      return this.getCart.reduce((current, next) =>
-          current + next.price, 0);
-    },
-    remove(index) {
-      this.removeProduct(index);
-    },
-  },
-
-};
-</script>
+<script src="./stepOne.js"></script>
 
 <style scoped>
 .checkout-box {
