@@ -5,20 +5,45 @@ import Users from './views/admin/Users.vue';
 import myStore from './components/ListProduct.vue';
 import Order from './views/Order.vue'
 import Login from './views/login/Login.vue'
+import AdminDashboard from './views/admin/Dashboard.vue'
+import userConfig from "@/utils/userConfig";
+import ProducteurDashboard from './views/producteurs/dashboard.vue'
 //import tokenConfig from "./utils/tokenConfig";
 
 Vue.use(VueRouter);
 
-/*
- //check if is not authenticated
- const isNotAuthenticated = (to, from, next) => {
-     if (!tokenConfig.getToken()) {
-         return location.href = '/login'
-     }
-     next()
+
+ const isAdmin = (to, from, next) => {
+    if (userConfig.getUser() != null) {
+        let user = JSON.parse(userConfig.getUser())
+        if (user.roleId === 1 ){
+            next ()
+        }
+
+    }
  }
 
+ const isProducteur = (to, from, next) => {
+     if (userConfig.getUser() != null){
+         let user = JSON.parse(userConfig.getUser())
+         if (user.roleId === 3 ){
+             next ()
+         }
+     }
+ }
+
+/*
+//check if is not authenticated
+const isNotAuthenticated = (to, from, next) => {
+    if (!tokenConfig.getToken()) {
+        return location.href = '/login'
+    }
+    next()
+}
+*/
+
 // check if user is connected
+/*
 const isAuthenticated = (to, from, next) => {
     if (tokenConfig.getToken() != null) {
         return location.href = '/';
@@ -26,6 +51,9 @@ const isAuthenticated = (to, from, next) => {
     next()
 }
 */
+
+
+
 
 
 const router = new VueRouter({
@@ -60,6 +88,18 @@ const router = new VueRouter({
             component: Order,
 
         },
+        {
+            path:'/admin/dashboard',
+            name: 'dashboard',
+            beforeEnter: isAdmin,
+            component: AdminDashboard,
+        },
+        {
+            path:'/producteur/dashboard',
+            name: 'ProducteurDashboard',
+            beforeEnter: isProducteur,
+            component: ProducteurDashboard,
+        }
 
     ]
 })

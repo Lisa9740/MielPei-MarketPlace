@@ -13,7 +13,7 @@
                 <v-toolbar
                     flat
                 >
-                  <v-toolbar-title>Utilisateur</v-toolbar-title>
+                  <v-toolbar-title>Gestion des utilisateurs de MielPéi</v-toolbar-title>
                   <v-divider
                       class="mx-4"
                       inset
@@ -108,19 +108,19 @@
 import axios from 'axios';
 
 export default {
-  name: "Map",
+  name: "Users",
   data() {
     return{
       users : [],
       dialog: false,
       dialogDelete: false,
       headers: [
-
         { text:'Nom', value: 'lastName'},
         { text:'Prénom', value: 'firstName'},
         { text:'Email', value: 'email'},
+        { text: 'Compte actifs', value: 'isActive'},
         { text:'Role', value: 'Role.name'},
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Actions', value: 'actions', sortable: true },
 
       ],
       editedIndex: -1,
