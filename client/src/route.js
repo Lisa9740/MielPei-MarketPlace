@@ -8,6 +8,9 @@ import Login from './views/login/Login.vue'
 import AdminDashboard from './views/admin/Dashboard.vue'
 import userConfig from "@/utils/userConfig";
 import ProducteurDashboard from './views/producteurs/dashboard.vue'
+import FicheProducteur from "@/views/FicheProducteur.vue";
+import HistoryOrder from "@/views/HistoricOrder.vue"
+import Products from "@/views/producteurs/Products";
 //import tokenConfig from "./utils/tokenConfig";
 
 Vue.use(VueRouter);
@@ -89,6 +92,12 @@ const router = new VueRouter({
 
         },
         {
+            path: '/order/history',
+            name: 'Historyorder',
+            component: HistoryOrder,
+
+        },
+        {
             path:'/admin/dashboard',
             name: 'dashboard',
             beforeEnter: isAdmin,
@@ -99,6 +108,18 @@ const router = new VueRouter({
             name: 'ProducteurDashboard',
             beforeEnter: isProducteur,
             component: ProducteurDashboard,
+        },
+        {
+            path:'/producteur/dashboard/products',
+            name: 'Products',
+            beforeEnter: isProducteur,
+            component: Products,
+        },
+        {
+            path:'/fiche/:id',
+            name: 'FicheProducteur',
+            component: FicheProducteur,
+            props: true
         }
 
     ]

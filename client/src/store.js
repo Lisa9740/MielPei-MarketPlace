@@ -12,6 +12,7 @@ export default new Vuex.Store({
     state: {
         isLogged: tokenConfig.getToken(),
         user: JSON.parse(userConfig.getUser()),
+        exploitations: [],
         userData: [],
         products: [],
         cart: cart ? JSON.parse(cart) : [],
@@ -36,6 +37,9 @@ export default new Vuex.Store({
         },
         SET_PRODUCT: (state, product) => {
             state.products.push(product);
+        },
+        SET_EXPLOITATION: (state, exploitations) => {
+          state.exploitations.push(exploitations)
         },
         ADD_PRODUCT_TO_CART: (state, product) => {
             if (state.cart.includes(product)){
@@ -76,11 +80,19 @@ export default new Vuex.Store({
     },
 
     actions: {
+        getExploitations: ({commit}) => {
+            axios.get('http://127.0.0.1:4000/api/exploitations')
+                .then(response => {
+                    commit('SET_EXPLOITATION', response)
+                    console.log(response.data[0])
+                })
+
+        },
         getProducts: ({commit}) => {
             axios.get('http://127.0.0.1:4000/api/products')
                     .then(response => {
                         commit('SET_PRODUCT', response.data)
-                        console.log(response.data)
+                        console.log('products' , response.data)
                     })
 
         },
