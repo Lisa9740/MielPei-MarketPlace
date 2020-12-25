@@ -143,10 +143,10 @@
         right
         v-model="drawer"
         width="350px"
-        mandatory
+       temporary
         absolute
     >
-      <CartCheckout/>
+      <Cart/>
       <router-link
           to="/order"
       >
@@ -159,7 +159,7 @@
   </div>
 </template>
 <script>
-import CartCheckout from "@/components/order/CartCheckout";
+import Cart from "@/components/Cart";
 import {mapGetters, mapActions} from "vuex";
 import tokenConfig from "@/utils/tokenConfig";
 
@@ -190,7 +190,7 @@ export default {
     }
   },
   components: {
-    CartCheckout
+    Cart
   },
   methods: {
     ...mapActions([
