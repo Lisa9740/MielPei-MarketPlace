@@ -36,6 +36,7 @@ exports.login = (req, res) => {
                     id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
+                    roleId: user.roleId,
                     token : token
                 });
             }

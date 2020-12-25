@@ -20,6 +20,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      isActive : {
+        type: Sequelize.TINYINT
+      },
       roleId : {
         type: Sequelize.INTEGER,
         references: {
