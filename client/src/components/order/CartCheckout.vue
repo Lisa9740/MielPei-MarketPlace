@@ -22,7 +22,7 @@
                 color="green"
                 @click.native="setProductQuantityInCart(product)"
             >
-              mdi-plus
+              mdi-plus  res.status(200).send(data);
             </v-icon>
           </v-span>
           <button class="product-remove" @click="remove(index)">X</button>
@@ -38,8 +38,8 @@
       Total: {{ totalPrice() }}, 00 €
     </h3>
     <div v-if="e1" class="d-flex">
-      <v-btn v-if="hasProduct()" @click="nextStep">
-        Confimer votre commande
+      <v-btn color="#1b3043" v-if="hasProduct()" class="text--yellow" @click="nextStep">
+        Confirmer votre commande >
       </v-btn>
     </div>
   </div>
@@ -48,6 +48,9 @@
 <script src="./stepOne.js"></script>
 
 <style scoped>
+.text--yellow {
+  color: white !important;
+}
 .checkout-box {
   width: 100%;
   max-width: 900px;

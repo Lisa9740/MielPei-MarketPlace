@@ -86,6 +86,7 @@ export default {
     },
     created() {
         this.retrieveLivraisonOrderData()
+        console.log('cart', this.getCart)
     }
 
 

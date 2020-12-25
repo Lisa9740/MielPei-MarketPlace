@@ -22,7 +22,9 @@ export default {
             })
             return result
         },
+        getExploitationData(){
 
+        },
         async setOrderPaid() {
             this.nextStep()
             let dataSend = {

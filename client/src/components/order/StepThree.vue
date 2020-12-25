@@ -26,9 +26,9 @@
         <v-divider></v-divider>
         <h4 class="mt-4"> Produit Commandés</h4>
         <v-spacer></v-spacer>
-        <div v-if="orderData.order">
+        <div>
           <v-row>
-            <v-col class="d-block justify-center">
+            <v-col class="d-block justify-center " v-if="orderData.order">
               <div class="d-block" v-for="(products, index) in orderData.order.products" :key="index">
                 <v-row justify="end">
                   <v-col cols="1">
@@ -37,7 +37,7 @@
                   <v-col>
                     {{ products.name }} - {{ products.price }} € - <small> quantité : {{ products.quantity }}</small>
                     <v-spacer></v-spacer>
-                    {{ products.Exploitation.commune}}
+                   {{ products.Exploitation.name}} - {{ products.Exploitation.commune}}
                   </v-col>
                 </v-row>
               </div>
