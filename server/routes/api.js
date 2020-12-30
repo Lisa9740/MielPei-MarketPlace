@@ -37,9 +37,13 @@ router.post('/order/payment', order.setUserOrderPaid);
 
 router.get('/exploitations', exploitations.findAll);
 
+router.get('/exploitations/:id/orders', order.getExploitationOrder);
+
 router.post('/exploitations/create', exploitations.create);
 
 router.get('/exploitations/:id', exploitations.findOne);
+
+router.get('/exploitations/:userId/datas', exploitations.findByUser);
 
 
 

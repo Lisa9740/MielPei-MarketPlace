@@ -19,7 +19,7 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col class="d-flex ma-5" cols="12" sm="3" xsm="12">
-        <v-btn x-large block :disabled="!valid" color="success" @click="validate">Ajouter</v-btn>
+        <v-btn x-large block :disabled="!valid" color="#1b3043" class="text--white" @click="validate">Ajouter</v-btn>
       </v-col>
     </v-row>
   </v-form>

@@ -4,33 +4,9 @@
       <h2 class="pa-7">Gestion de mon exploitation</h2>
       <v-row>
         <v-col cols="2">
-          <v-card height="200px">
-            <v-container>
-              <v-list>
-                <v-list-item-group >
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>Ma fiche descriptif</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <router-link class="no-link-style" to="/producteur/dashboard/products">
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>Mes produits</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  </router-link>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>Mes produits commandés</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-
-
-            </v-container>
-          </v-card>
+          <template>
+            <Menu/>
+          </template>
         </v-col>
         <v-col>
           <v-card>
@@ -150,6 +126,7 @@
                               hint="Hint text"
                           ></v-textarea>-->
               <h4>Mes dernières commandes</h4>
+              {{ this.orders}}
             </v-card-text>
           </v-card>
         </v-col>
@@ -169,14 +146,15 @@
 <script>
 import Axios from "axios";
 import userConfig from "@/utils/userConfig";
-
+import Menu from "@/views/producteurs/Menu";
 
 export default {
-
   data: () => ({
     dialog: false,
     fiche: [],
     products: [],
+    ficheId : "",
+    orders: [],
     description: "",
     user: JSON.parse(userConfig.getUser()),
     name: "",
@@ -185,7 +163,7 @@ export default {
     longitude: "",
     latitude: "",
   }),
-
+  components: { Menu },
   methods: {
     async postNewExploitation(){
       let dataSend = {
@@ -198,25 +176,31 @@ export default {
         userId : this.user.id
       }
 
-      console.log(dataSend)
-
       const connectInfo = await Axios.post('http://127.0.0.1:4000/api/exploitations/create', dataSend);
-      console.log(connectInfo);
 
      this.retrieveFicheProducteur()
+
       this.flashMessage.success({
         message: connectInfo.data.message,
         time: 5000,
       });
     },
     retrieveFicheProducteur() {
-      Axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id)
+      Axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id + '/datas')
           .then(response => {
             this.fiche = response.data.fiche
-            this.products.push(response.data.product)
-
+            this.products = response.data.product
+            this.ficheId = response.data.fiche.id
+            this.retrieveLastOrders(response.data.fiche.id)
           })
     },
+    retrieveLastOrders(element) {
+      Axios.get('http://127.0.0.1:4000/api/exploitations/' +  element + '/orders')
+      .then(response =>{
+        this.orders.push(response.data)
+        this.orders = this.orders.flat()
+      })
+    }
 
   },
   created() {

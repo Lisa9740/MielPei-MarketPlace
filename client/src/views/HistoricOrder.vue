@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <h2>Mon historique de commande</h2>
-
     <v-card class="mt-4 pa-5" v-for="order in orders[0].order" :key="order.id">
       <v-card-text>
       <v-row>
@@ -15,11 +14,13 @@
           <div v-if="order.status === 3">
             En cours de livraison
           </div>
-          <p>Commande #{{ order.id }}</p>
-          <p>Crée le {{ order.createdAt}}</p>
         </v-col>
         <v-col>
-
+          <p>Commande #{{ order.id }}</p>
+          <p>Crée le {{ new Date(order.createdAt) | dateFormat('DD.MM.YYYY à h h mm')  }}</p>
+          <div v-for="products in order.products" :key="products.id">
+            {{ products.name}} - {{products.price}} €
+          </div>
         </v-col>
         <v-col></v-col>
       </v-row>

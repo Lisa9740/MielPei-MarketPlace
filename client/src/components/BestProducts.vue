@@ -1,7 +1,7 @@
 <template>
   <v-row>
 <v-col cols="12" sm="6" md="4" v-for="product in products[0]" :key="product.id">
-  <v-card>
+  <v-card flat>
     <v-img
         height="140"
         src="https://cdn.vuetifyjs.com/images/cards/cooking.png"

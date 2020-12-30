@@ -2,34 +2,11 @@
   <div id="container">
     <v-container fluid>
       <h2 class="pa-7">Mes produits</h2>
-
       <v-row>
         <v-col cols="2">
-          <v-card height="200px">
-            <v-container>
-              <v-list>
-                <v-list-item-group >
-                  <router-link class="no-link-style" to="/producteur/dashboard">
-                  <v-list-item>
-                    <v-list-item-content>
-                        <v-list-item-title>Ma fiche descriptif</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  </router-link>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>Mes produits</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>Mes produits commandés</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-            </v-container>
-          </v-card>
+          <template>
+            <Menu/>
+          </template>
         </v-col>
         <v-col>
 
@@ -105,6 +82,16 @@
                               <v-col
                                   cols="12"
                               >
+                                <v-text-field
+                                    v-model="editedItem.inStock"
+                                    :value="inStock"
+                                    label="En stock"
+                                    required
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                              >
                                 <v-textarea
                                     v-model="editedItem.description"
                                     :value="description"
@@ -131,7 +118,7 @@
                                color="blue darken-1"
                                text
                                :disabled="!valid"
-                                @click="postNewProduct"
+                                @click="postNewProduct(editedItem)"
                         >
                           {{buttonName}}
                         </v-btn>
@@ -204,6 +191,7 @@
 import userConfig from "@/utils/userConfig";
 import axios from "axios";
 import Axios from "axios";
+import Menu from  "./Menu.vue"
 
 export default {
   name: "AllProducts",
@@ -219,7 +207,7 @@ export default {
       {text: 'ID', value: 'id'},
       {text: 'Nom', value: 'name'},
       {text: 'Price', value: 'price'},
-      {text: 'En stock', value: ''},
+      {text: 'En stock', value: 'inStock'},
       {text: 'Description', value: 'description'},
       {text: 'Actions', value: 'actions', sortable: true},
     ],
@@ -228,18 +216,22 @@ export default {
       id: '',
       name: '',
       price: '',
+      inStock: 0,
       description: '',
     },
     defaultItem: {
       id: 0,
       name: '',
       price: '',
+      inStock: 0,
       description: '',
     },
     price: '',
     name: '',
+    inStock: '',
     user: JSON.parse(userConfig.getUser()),
   }),
+  components: { Menu },
   computed: {
     formTitle () {
       return this.editedIndex === -1 ? 'Ajouter un produit' : 'Editer un produit'
@@ -258,12 +250,13 @@ export default {
   },
 
   methods: {
-    async postNewProduct(){
+    async postNewProduct(element){
       let dataSend = {
-        name: this.name,
-        price: this.price,
+        name: element.name,
+        inStock: element.inStock,
+        price: element.price,
         exploitationId: this.ficheId,
-        description: this.description,
+        description: element.description,
       }
 
       console.log(dataSend)
@@ -282,6 +275,7 @@ export default {
         id: this.editedItem.id,
         name: this.editedItem.name,
         price: this.editedItem.price,
+        inStock: this.editedItem.inStock,
         description: this.editedItem.description,
         exploitationId : this.ficheId,
 
@@ -299,7 +293,7 @@ export default {
 
     },
     retrieveFicheProducteur() {
-      axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id)
+      axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id + '/datas')
           .then(response => {
             if (response){
               this.fiche = response.data.fiche
@@ -345,7 +339,7 @@ export default {
       if (this.editedIndex > -1) {
         Object.assign(this.products[this.editedIndex], this.editedItem)
       } else {
-        this.users.push(this.editedItem)
+        this.products.push(this.editedItem)
       }
       this.close()
     },

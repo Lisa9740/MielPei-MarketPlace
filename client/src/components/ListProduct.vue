@@ -6,7 +6,7 @@
 
     <v-row>
       <v-col v-for='product in products[0]' :key='product.id'>
-        <v-card>
+        <v-card flat>
           <v-img
               height="140"
               src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
@@ -65,7 +65,6 @@ export default {
   methods: {
     ...mapActions([
       'addProductToCart',
-
     ]),
 
     addCurrentProduct(product) {

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="mb-5 mt-5">Bienvenue à MielPéi! <span v-if="user">{{user.firstName}} {{user.lastName}}</span></h1>
+    <h2 class="mb-5 mt-5">Bienvenue à MielPéi! <span v-if="user">{{user.firstName}} {{user.lastName}}</span></h2>
 
     <v-row>
       <v-col cols="6" class="pa-6">

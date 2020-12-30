@@ -6,10 +6,11 @@ const Role = db.Role
 /*const Op = db.Sequelize.Op;*/
 
 exports.create = (req, res) => {
-    const { name, price, description, exploitationId } = req.body
+    const { name, price, description, inStock ,exploitationId } = req.body
     Product.create({
         name : name,
         price : price,
+        inStock: inStock,
         description : description,
         exploitationId : exploitationId,
         quantity : 1
@@ -20,10 +21,11 @@ exports.create = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-    const { id, name, price, description, exploitationId } = req.body
+    const { id, name, price, description, inStock, exploitationId } = req.body
     Product.update({
         name : name,
         price : price,
+        inStock: inStock,
         description : description,
         exploitationId : exploitationId,
         quantity : 1

@@ -201,7 +201,10 @@ export default {
       location.href = '/';
     },
     hasProduct() {
-      return this.getCart.length > 0;
+      if (this.getCart) {
+        return this.getCart.length > 0;
+      }
+
     },
     showPopupCart() {
       this.showOrHiddenPopupCart();

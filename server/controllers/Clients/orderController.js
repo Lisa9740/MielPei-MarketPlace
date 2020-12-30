@@ -1,6 +1,7 @@
 const db = require("../../models");
 const config = require("../../config/authConfig");
 const Order = db.Order;
+const ExploitationOrder = db.ExploitationOrder
 const Adresse = db.AdresseLivraison;
 
 
@@ -13,12 +14,22 @@ exports.create = (req, res) => {
 
     Order.create({
         adresse, userId, products, status
-    }).then(adresse => {
+    }).then(order => {
         /* if (!user){
              return res.status(404).send({ message: "User Not found." });
          }*/
 
-        return res.status(200).send(adresse);
+        order.products.forEach( product => {
+            ExploitationOrder.create({
+                orders: {product},
+                exploitationId: product.exploitationId,
+                status: order.status,
+                orderId: order.id
+            })
+        })
+
+
+        return res.status(200).send(order);
     })
 }
 
@@ -42,6 +53,35 @@ exports.getUserOrder = (req, res) => {
     })
 
 }
+
+exports.getHistoricUserOrder = (req, res) => {
+    const userId  = req.params.userId
+
+    Order.findAll({
+        where : {
+            userId: userId,
+        },
+        attributes: ["id", "status", "products", "createdAt", "adresse"]
+
+    }).then( order => {
+            return res.status(200).send({order : order});
+    })
+}
+
+exports.getExploitationOrder = (req, res) => {
+    const id  = req.params.id
+
+    ExploitationOrder.findAll({
+        where : {
+            exploitationId: id,
+        },
+        attributes: ["id", "status", "orders", "orderId", "createdAt"]
+
+    }).then( order => {
+        return res.status(200).send(order);
+    })
+}
+
 
 exports.setUserOrderPaid = (req, res) => {
     const {userId}  = req.body
