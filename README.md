@@ -5,12 +5,13 @@
 Ce projet utilise les technologies suivantes : 
 *     Node js en backend
 *     Vue en frontend
+*     Sequelize 
 
 #Initialisation du projet 
 
 Après avoir fait un git clone de ce projet, vous devez effectué les actions suivantes :
 
-*    backend : cd server && npm install
+*    backend : cd server && npm install && node ./bin/www
 *    frontend : cd client && npm install && npm run serve
 
 Accès à la base de donnée :
