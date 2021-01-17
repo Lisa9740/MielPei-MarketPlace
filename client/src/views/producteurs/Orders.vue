@@ -34,7 +34,7 @@
                 >
                   <v-card>
                     <v-card-title class="headline">
-                     Editer status
+                     Command #{{editedItem.id}}
                     </v-card-title>
 
 
@@ -46,41 +46,55 @@
                                 cols="12"
                                 md="6"
                             >
-
                               <v-text-field
-                                  v-model="editedItem.name"
+                                  v-model="editedItem.status"
                                   :value="name"
-                                  label="Nom du produit"
+                                  label="Status"
                                   required
                               ></v-text-field>
                             </v-col>
                           </v-row>
                         </v-form>
+                        {{ editedItem.orders}}
+                        <ul id="example-2">
+                       <li v-for="(products, index) in editedItem.orders.product" :key="index">
+                       {{products.name}}, {{ index}}
+                       </li>
+                        </ul>
+
+                        <v-btn
+                            color="blue darken-1"
+                            text
+
+                        >
+                          Mettre le statut de la commande en traité
+                        </v-btn>
+
                       </v-container>
                     </v-card-text>
 
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn
-                          color="blue darken-1"
-                          text
-
-                      >
-                        Cancel
-                      </v-btn>
-                      <v-btn v-if="editedItem.id !== ''"
-                             color="blue darken-1"
-                             text
-                             :disabled="!valid"
-                      >
-                        Changer de status
-                      </v-btn>
-
 
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
               </v-toolbar>
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(item)"
+              >
+                mdi-pencil
+              </v-icon>
+              <v-icon
+                  small
+                  @click="deleteItem(item)"
+              >
+                mdi-delete
+              </v-icon>
             </template>
             <template v-slot:no-data>
               <v-btn
@@ -99,6 +113,8 @@
 import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import Menu from './Menu.vue'
+import _ from 'lodash';
+
 
 export default {
   components: {Menu},
@@ -123,19 +139,23 @@ export default {
     editedIndex: -1,
     editedItem: {
       id: '',
-      status:'0'
+      status:0,
+      orders : []
     },
+    defaultItem: {
+      id: '',
+      status: '0',
+      orders : []
+    }
   }),
 
   methods: {
     formatStatusValue(orders) {
-      orders.forEach( order => {
-        if (order.status === 1) {
-          order.status = 'Non terminée'
-        } else if (status === 2){
-          order.status = 'A traité'
+        if (orders.status === 1) {
+          this.deleteItem(orders)
+        } else if (orders.status === 2){
+          orders.status = 'A traité'
         }
-      })
     },
     retrieveFicheProducteur() {
       Axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id + '/datas')
@@ -150,12 +170,44 @@ export default {
     retrieveLastOrders(element) {
       Axios.get('http://127.0.0.1:4000/api/exploitations/' +  element + '/orders')
           .then(response =>{
-            this.orders.push(response.data)
-            this.orders = this.orders.flat()
-            console.log(('orders' + JSON.stringify(this.orders)))
+            this.orders = response.data
+            const result = []
+
+            const grouped = [_.groupBy(this.orders, 'orderId')];
+            console.log("grouped" + grouped[0].length, grouped[0], this.orders)
+            for (let i=0; i<grouped.length; i++){
+              result.push({order : grouped[i][1]})
+            }
+
+            console.log(result)
             this.formatStatusValue(this.orders)
           })
-    }
+    },
+    editItem (item) {
+      this.editedIndex = this.orders.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+    close () {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+    deleteItem (item) {
+      this.editedIndex = this.orders.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.orders.splice(this.editedIndex, 1)
+    },
+    save () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.orders[this.editedIndex], this.editedItem)
+      } else {
+        this.orders.push(this.editedItem)
+      }
+
+    },
   },
   created() {
     this.retrieveFicheProducteur()

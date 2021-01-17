@@ -29,7 +29,7 @@ module.exports = {
         email : "jd@gmail.com",
         password : await bcrypt.hash('test', 12),
           isActive: 1,
-        roleId : 2,
+        roleId : 3,
         createdAt : new Date(),
         updatedAt : new Date()
       },{

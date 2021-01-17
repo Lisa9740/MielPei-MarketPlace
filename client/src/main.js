@@ -6,10 +6,13 @@ import Routes from './route'
 import store from './store';
 import FlashMessage from '@smartweb/vue-flash-message'
 import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
 
 Vue.config.productionTip = false
 Vue.use(Vuetify);
 Vue.use(FlashMessage);
+Vue.use(VueLodash, { lodash: lodash })
 Vue.use(VueFilterDateFormat, {
   dayOfWeekNames: [
     'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi',
