@@ -19,6 +19,7 @@ module.exports = {
           lastName : "Admin",
           email : "admin@gmail.com",
           password : await bcrypt.hash('test', 12),
+          isActive: 1,
           roleId : 1,
           createdAt : new Date(),
           updatedAt : new Date()
@@ -27,7 +28,8 @@ module.exports = {
         lastName : "Doe",
         email : "jd@gmail.com",
         password : await bcrypt.hash('test', 12),
-        roleId : 2,
+          isActive: 1,
+        roleId : 3,
         createdAt : new Date(),
         updatedAt : new Date()
       },{
@@ -35,6 +37,7 @@ module.exports = {
           lastName : "Hoarau",
           email : "producteurd@gmail.com",
           password : await bcrypt.hash('test', 12),
+          isActive: 1,
           roleId : 3,
           createdAt : new Date(),
           updatedAt : new Date()

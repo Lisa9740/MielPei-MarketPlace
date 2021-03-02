@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import tokenConfig from '../../utils/tokenConfig';
 import Register from "@/views/register/Register";
+import userConfig from '../../utils/userConfig'
 export default {
     name:"Login",
     data: () => ({
@@ -16,19 +17,32 @@ export default {
         ],
     }),
     components: { Register },
+    computed: {
+        products() {
+            return this.$store.state.products
+        },
+        getProductsInCart(){
+            return this.$store.state.cart
+        }
+    },
     methods: {
         async validate() {
             let isReady = this.$refs.form.validate();
             let dataSend = {
                 email : this.email,
-                password : this.password
+                password : this.password,
+                cartProducts: this.getProductsInCart
             }
             if(isReady) {
                 const connectInfo = await Axios.post('http://127.0.0.1:4000/api/login', dataSend);
+
                 if(connectInfo.data.token) {
+
                     tokenConfig.setToken(connectInfo.data.token);
+                    userConfig.setUser(JSON.stringify(connectInfo.data))
                     location.href = '/';
                     // this.$router.push('/');
+
                     console.log('true', connectInfo.data);
                     this.flashMessage.success({
                         message: connectInfo.data.message,
@@ -43,5 +57,9 @@ export default {
                 }
             }
         }
+    },
+    mounted() {
+        this.$store.dispatch("getProducts");
+
     },
 }

@@ -1,7 +1,7 @@
 <template>
-
   <v-container>
-    <h1 class="mb-5 mt-5">Bienvenue à MielPéi!</h1>
+    <h2 class="mb-5 mt-5">Bienvenue à MielPéi! <span v-if="user">{{user.firstName}} {{user.lastName}}</span></h2>
+
     <v-row>
       <v-col cols="6" class="pa-6">
         <MapExploitation/>
@@ -18,40 +18,12 @@
           </v-card-text>
         </v-card>
       </v-col>
-
     </v-row>
-
 
     <v-container>
       <h2 class="mt-8"> Meilleurs produits encore en stock</h2>
       <v-divider class="yellow-divider"></v-divider>
-      <v-row>
-        <v-col cols="12" sm="6" md="4" v-for="product in products[0]" :key="product.id">
-          <v-card>
-            <v-img
-                height="140"
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-            ></v-img>
-            <v-row justify="center">
-              <v-card-text>
-                <strong>{{ product.price }}  </strong> € •
-                {{ product.description }}
-
-              <v-rating
-                  :value="4.5"
-                  color="amber"
-                  dense
-                  half-increments
-                  readonly
-                  size="14"
-              ></v-rating>
-              </v-card-text>
-            </v-row>
-            <CartButton :cartIcon="true" @click.native="addProductToCart(product)"/>
-
-          </v-card>
-        </v-col>
-      </v-row>
+      <BestProducts/>
     </v-container>
   </v-container>
 </template>
@@ -66,39 +38,17 @@
 </style>
 
 <script>
-import CartButton from "./components/CartButton";
-import {mapActions} from "vuex";
+import BestProducts from "@/components/BestProducts";
 import MapExploitation from "./components/MapExploitation";
-
+import userConfig from "@/utils/userConfig";
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    user: JSON.parse(userConfig.getUser())
+  }),
   components: {
-    CartButton,
-    MapExploitation
-  },
-  computed: {
-    products() {
-      return this.$store.state.products
-    }
-  },
-
-  methods: {
-    ...mapActions([
-      'addProduct',
-      'currentProduct',
-    ]),
-    addProductToCart(product) {
-      this.addProduct(product);
-    },
-    addCurrentProduct(product) {
-      this.currentProduct(product);
-    },
-
-  },
-  mounted() {
-    this.$store.dispatch("getProduct");
-
+    MapExploitation,
+    BestProducts
   },
 }
 </script>

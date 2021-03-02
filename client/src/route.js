@@ -5,26 +5,59 @@ import Users from './views/admin/Users.vue';
 import myStore from './components/ListProduct.vue';
 import Order from './views/Order.vue'
 import Login from './views/login/Login.vue'
-import tokenConfig from "./utils/tokenConfig";
+import AdminDashboard from './views/admin/Dashboard.vue'
+import userConfig from "@/utils/userConfig";
+import ProducteurDashboard from './views/producteurs/dashboard.vue'
+import FicheProducteur from "@/views/FicheProducteur.vue";
+import HistoryOrder from "@/views/HistoricOrder.vue"
+import Products from "@/views/producteurs/Products"
+import Orders from "@/views/producteurs/Orders";
+//import tokenConfig from "./utils/tokenConfig";
 
 Vue.use(VueRouter);
 
 
-// // check if is not authenticated
-// const isNotAuthenticated = (to, from, next) => {
-//     if (!tokenConfig.getToken()) {
-//         return location.href = '/login'
-//     }
-//     next()
-// }
+ const isAdmin = (to, from, next) => {
+    if (userConfig.getUser() != null) {
+        let user = JSON.parse(userConfig.getUser())
+        if (user.roleId === 1 ){
+            next ()
+        }
+
+    }
+ }
+
+ const isProducteur = (to, from, next) => {
+     if (userConfig.getUser() != null){
+         let user = JSON.parse(userConfig.getUser())
+         if (user.roleId === 3 ){
+             next ()
+         }
+     }
+ }
+
+/*
+//check if is not authenticated
+const isNotAuthenticated = (to, from, next) => {
+    if (!tokenConfig.getToken()) {
+        return location.href = '/login'
+    }
+    next()
+}
+*/
 
 // check if user is connected
+/*
 const isAuthenticated = (to, from, next) => {
     if (tokenConfig.getToken() != null) {
         return location.href = '/';
     }
     next()
 }
+*/
+
+
+
 
 
 const router = new VueRouter({
@@ -34,13 +67,13 @@ const router = new VueRouter({
             path: '/login',
             name: 'login',
             component: Login,
-            beforeEnter: isAuthenticated
+
         },
         {
         path: '/',
         name: 'home',
         component: Home,
-            beforeEnter: isAuthenticated
+
     },
         {
             path: '/users',
@@ -51,14 +84,50 @@ const router = new VueRouter({
             path: '/mystore',
             name: 'mystore',
             component: myStore,
-            beforeEnter: isAuthenticated
+
         },
         {
             path: '/order',
             name: 'order',
             component: Order,
-            beforeEnter: isAuthenticated
+
         },
+        {
+            path: '/order/history',
+            name: 'Historyorder',
+            component: HistoryOrder,
+
+        },
+        {
+            path:'/admin/dashboard',
+            name: 'dashboard',
+            beforeEnter: isAdmin,
+            component: AdminDashboard,
+        },
+        {
+            path:'/producteur/dashboard',
+            name: 'ProducteurDashboard',
+            beforeEnter: isProducteur,
+            component: ProducteurDashboard,
+        },
+        {
+            path:'/producteur/dashboard/products',
+            name: 'Products',
+            beforeEnter: isProducteur,
+            component: Products,
+        },
+        {
+            path:'/producteur/dashboard/orders',
+            name: 'Orders',
+            beforeEnter: isProducteur,
+            component: Orders,
+        },
+        {
+            path:'/fiche/:id',
+            name: 'FicheProducteur',
+            component: FicheProducteur,
+            props: true
+        }
 
     ]
 })

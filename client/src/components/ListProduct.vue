@@ -6,17 +6,36 @@
 
     <v-row>
       <v-col v-for='product in products[0]' :key='product.id'>
-        <v-card>
+        <v-card flat>
           <v-img
               height="140"
               src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
           ></v-img>
-        <h3>{{product.price}}</h3>
-          <h3>{{product.description}}</h3>
-          <CartButton
-              :cartIcon="true"
-              @click.native="addProductToCart(product)"
-          />
+          <v-card-title>{{ product.name }}</v-card-title>
+          <v-card-text>
+            <strong>{{ product.price }}  </strong> € •
+            {{ product.description }}
+            <v-row
+                align="center"
+                class="mx-0"
+            >
+              <v-rating
+                  :value="4.5"
+                  color="amber"
+                  dense
+                  half-increments
+                  readonly
+                  size="14"
+              ></v-rating>
+
+              <div class="grey--text ml-4">
+                4.5 (413)
+              </div>
+            </v-row>
+            </v-card-text>
+              <v-card-actions>
+                <CartButton :cartIcon="true" @click.native="addProductToCart(product)"/>
+              </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -45,18 +64,15 @@ export default {
   },
   methods: {
     ...mapActions([
-      'addProduct',
-      'currentProduct',
+      'addProductToCart',
     ]),
-    addProductToCart(product) {
-      this.addProduct(product);
-    },
+
     addCurrentProduct(product) {
       this.currentProduct(product);
     },
   },
   mounted() {
-    this.$store.dispatch("getProduct");
+    this.$store.dispatch("getProducts");
   }
 }
 </script>

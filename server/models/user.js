@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
         this.Role = this.belongsTo(models.Role)
+        this.Cart = this.belongsTo(models.Cart)
     }
   };
   User.init({
@@ -18,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    roleId : DataTypes.INTEGER
+    isActive: DataTypes.BOOLEAN,
+    roleId : DataTypes.INTEGER,
+    cartId : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',
