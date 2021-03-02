@@ -20,5 +20,9 @@
   "devDependencies": {
     "jsonwebtoken": "^8.5.1",
     "sequelize-cli": "^6.2.0"
-  }
+  },
+  "main": "app.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
