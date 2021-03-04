@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "pm2": "pm2 start processes.json --no-daemon",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -14,14 +15,19 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mysql2": "^2.2.5",
+    "pm2": "^4.5.5",
     "pug": "2.0.0-beta11",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "jsonwebtoken": "^8.5.1",
-    "sequelize-cli": "^6.2.0"
+
   },
   "main": "app.js",
+  "engines": {
+    "node": "v14.15.4"
+  },
   "author": "",
   "license": "ISC",
   "description": ""

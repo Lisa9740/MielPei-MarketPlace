@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "root",
+    "password": "root123",
     "database": "mielpei",
-    "host": "127.0.0.1",
+    "host": "172.19.0.2",
     "dialect": "mysql"
   },
   "test": {
@@ -15,9 +15,9 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "password": "root123",
+    "database": "mielpei",
+    "host": "172.19.0.2",
     "dialect": "mysql"
   }
 }
