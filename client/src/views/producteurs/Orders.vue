@@ -110,7 +110,6 @@
   </div>
 </template>
 <script>
-import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import Menu from './Menu.vue'
 import _ from 'lodash';

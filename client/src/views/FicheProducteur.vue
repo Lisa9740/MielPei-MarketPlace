@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import CartButton from "@/components/CartButton";
 import {mapActions} from "vuex";
 import {APIService} from "@/service/service";

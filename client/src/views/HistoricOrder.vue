@@ -30,7 +30,6 @@
   </v-container>
 </template>
 <script>
-import axios from "axios";
 import userConfig from "@/utils/userConfig";
 import {APIService} from "@/service/service";
 

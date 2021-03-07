@@ -184,8 +184,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import Axios from "axios";
 import {APIService} from '@/service/service.js';
 
 let api = new APIService();

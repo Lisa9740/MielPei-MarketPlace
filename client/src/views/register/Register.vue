@@ -28,7 +28,6 @@
 </v-container>
 </template>
 <script>
-import Axios from "axios";
 import tokenConfig from "@/utils/tokenConfig";
 import {APIService} from "@/service/service";
 

@@ -189,8 +189,6 @@
 </style>
 <script>
 import userConfig from "@/utils/userConfig";
-import axios from "axios";
-import Axios from "axios";
 import Menu from  "./Menu.vue"
 import {APIService} from "@/service/service";
 

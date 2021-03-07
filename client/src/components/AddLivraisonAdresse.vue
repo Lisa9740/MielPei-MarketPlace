@@ -25,7 +25,6 @@
   </v-form>
 </template>
 <script>
-import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import {APIService} from "@/service/service";
 

@@ -144,7 +144,6 @@
 }
 </style>
 <script>
-import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import Menu from "@/views/producteurs/Menu";
 import {APIService} from "@/service/service";

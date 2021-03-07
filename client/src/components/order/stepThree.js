@@ -1,5 +1,4 @@
 import userConfig from "@/utils/userConfig";
-import Axios from "axios";
 import {APIService} from "@/service/service";
 
 let api = new APIService();

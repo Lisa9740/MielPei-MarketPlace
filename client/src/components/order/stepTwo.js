@@ -1,4 +1,3 @@
-import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import AddLivraisonAdresse from "@/components/AddLivraisonAdresse";
 import {mapGetters} from "vuex";

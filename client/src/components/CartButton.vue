@@ -1,4 +1,3 @@
-
 <template>
   <button class="ml-5 btn btn-medium btn-info">
     <slot></slot>
