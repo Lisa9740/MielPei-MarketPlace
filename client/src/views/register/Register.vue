@@ -30,7 +30,9 @@
 <script>
 import Axios from "axios";
 import tokenConfig from "@/utils/tokenConfig";
+import {APIService} from "@/service/service";
 
+let api = new APIService();
 export default {
   name: 'Register',
   data: () => ({
@@ -72,7 +74,8 @@ export default {
         password: this.password
       }
       if (isReady) {
-        const connectInfo = await Axios.post('http://127.0.0.1:4000/api/register', dataSend);
+
+        const connectInfo = await api.register(dataSend);
         console.log(connectInfo);
         if (connectInfo.data.token) {
           tokenConfig.setToken(connectInfo.data.token);

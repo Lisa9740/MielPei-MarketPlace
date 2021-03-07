@@ -192,7 +192,9 @@ import userConfig from "@/utils/userConfig";
 import axios from "axios";
 import Axios from "axios";
 import Menu from  "./Menu.vue"
+import {APIService} from "@/service/service";
 
+let api = new APIService();
 export default {
   name: "AllProducts",
   data: () => ({
@@ -261,7 +263,7 @@ export default {
 
       console.log(dataSend)
 
-      const connectInfo = await Axios.post('http://127.0.0.1:4000/api/products/create', dataSend);
+      const connectInfo = await api.createProduct(dataSend);
       console.log(connectInfo);
 
       this.retrieveFicheProducteur()
@@ -281,7 +283,8 @@ export default {
 
       }
 
-      const connectInfo = await Axios.post('http://127.0.0.1:4000/api/products/edit', dataSend);
+
+      const connectInfo = await api.editProduct(dataSend);
       console.log(connectInfo);
 
       this.save(dataSend)
@@ -293,7 +296,7 @@ export default {
 
     },
     retrieveFicheProducteur() {
-      axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id + '/datas')
+      api.getExploitationByUser(this.user.id)
           .then(response => {
             if (response){
               this.fiche = response.data.fiche

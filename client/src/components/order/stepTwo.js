@@ -2,7 +2,10 @@ import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import AddLivraisonAdresse from "@/components/AddLivraisonAdresse";
 import {mapGetters} from "vuex";
+import {APIService} from "@/service/service";
 
+
+let api = new  APIService();
 export default {
     name: "StepTwo",
     props: ['e1', 'orderData'],
@@ -55,7 +58,7 @@ export default {
                 status: 1
             }
             if (isReady) {
-                const connectInfo = await Axios.post('http://127.0.0.1:4000/api/order', dataSend);
+                const connectInfo = await api.createOrder(dataSend);
                 console.log('postOrderData', connectInfo.data);
 
                 this.nextStep();
@@ -68,14 +71,14 @@ export default {
         },
 
         retrieveLivraisonOrderData() {
-            Axios.get('http://127.0.0.1:4000/api/' + this.user.id + '/livraison').then(data => {
+            api.getOrderDeliveryAddress(this.user.id).then(data => {
                 this.livraisonData.push(data.data)
                 console.log(data.data)
             });
         },
 
         retrieveUserOrderData() {
-            Axios.get('http://127.0.0.1:4000/api/' + this.user.id + '/order').then(data => {
+            api.getOrder(this.user.id).then(data => {
                 this.$emit("order-data", { order : data.data.order, livraison : this.selected })
             });
         },

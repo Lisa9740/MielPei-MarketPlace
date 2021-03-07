@@ -32,7 +32,9 @@
 <script>
 import axios from "axios";
 import userConfig from "@/utils/userConfig";
+import {APIService} from "@/service/service";
 
+let api = new APIService();
 export default {
 
   data: () => ({
@@ -41,7 +43,7 @@ export default {
   }),
   methods: {
     retrieveOrderHistory() {
-      axios.get('http://127.0.0.1:4000/api/' + this.user.id +'/order/history').then(response => {
+      api.getUserHistoryOrder(this.user.id).then(response => {
             this.orders.push(response.data)
           })
     }

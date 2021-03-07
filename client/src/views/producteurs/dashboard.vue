@@ -147,7 +147,9 @@
 import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import Menu from "@/views/producteurs/Menu";
+import {APIService} from "@/service/service";
 
+let api = new APIService();
 export default {
   data: () => ({
     dialog: false,
@@ -173,10 +175,10 @@ export default {
         longitude : this.longitude,
         latitude : this.latitude,
         description: this.description,
-        userId : this.user.id
+        userId : this.user.idmielpei
       }
 
-      const connectInfo = await Axios.post('http://127.0.0.1:4000/api/exploitations/create', dataSend);
+      const connectInfo = await api.createExploitations(dataSend);
 
      this.retrieveFicheProducteur()
 
@@ -186,7 +188,7 @@ export default {
       });
     },
     retrieveFicheProducteur() {
-      Axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id + '/datas')
+      api.getExploitationByUser(this.user.id)
           .then(response => {
             this.fiche = response.data.fiche
             this.products = response.data.product
@@ -195,7 +197,7 @@ export default {
           })
     },
     retrieveLastOrders(element) {
-      Axios.get('http://127.0.0.1:4000/api/exploitations/' +  element + '/orders')
+      api.getExploitationOrders(element)
       .then(response =>{
         this.orders.push(response.data)
         this.orders = this.orders.flat()

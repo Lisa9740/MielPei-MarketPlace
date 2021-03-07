@@ -3,12 +3,15 @@ import Vuex from 'vuex';
 import axios from "axios";
 import tokenConfig from "@/utils/tokenConfig";
 import userConfig from "@/utils/userConfig";
+import {APIService} from "./service/service.js"
 
 Vue.use(Vuex);
 
 let cart = window.localStorage.getItem('cart');
-export default new Vuex.Store({
 
+let api = new APIService();
+
+export default new Vuex.Store({
     state: {
         isLogged: tokenConfig.getToken(),
         user: JSON.parse(userConfig.getUser()),
@@ -89,8 +92,7 @@ export default new Vuex.Store({
 
         },
         getProducts: ({commit}) => {
-            axios.get('http://127.0.0.1:4000/api/products')
-                    .then(response => {
+            api.getApiProducts().then(response => {
                         commit('SET_PRODUCT', response.data)
                         console.log('products' , response.data)
                     })

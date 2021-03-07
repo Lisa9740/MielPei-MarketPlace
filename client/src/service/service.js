@@ -1,42 +1,55 @@
 import axios from 'axios';
 
 
-const API_URL = 'http://localhost:4000/api';
+let API_URL
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    API_URL = 'http://127.0.0.1:4000/api/'
+} else {
+    API_URL = 'http://api.example.com/api'
+}
 
 export class APIService {
-
+    register(user) {
+        const url = `${API_URL}/register`;
+        return axios.post(url, user);
+    }
     getApiProducts() {
         const url = `${API_URL}/products`;
-        return axios.get(url).then(response => response.data);
+        return axios.get(url);
     }
 
     getUsers() {
         const url = `${API_URL}/users`;
-        return axios.get(url).then(response => response.data);
+        return axios.get(url);
     }
 
     getUserHistoryOrder(id) {
         const url = `${API_URL}/users/${id}/order/history`;
-        return axios.get(url).then(response => response.data);
+        return axios.get(url);
     }
 
     getExploitation(id) {
         const url = `${API_URL}/exploitations/${id}`;
-        return axios.get(url).then(response => response.data);
+        return axios.get(url);
     }
 
+    getOrder(id){
+        const url = `${API_URL}/${id}/order`
+        return axios.get(url);
+    }
     getAllExploitations(){
         const url = `${API_URL}/exploitations`;
-        return axios.get(url).then(response => response.data);
+        return axios.get(url);
     }
     getExploitationByUser(id){
         const url = `${API_URL}/exploitations/${id}/datas`;
-        return axios.get(url).then(response => response.data);
+        return axios.get(url);
     }
 
     getExploitationOrders(id){
         const url = `${API_URL}/exploitations/${id}/orders`;
-        return axios.get(url).then(response => response.data);
+        return axios.get(url);
     }
 
     getOrderDeliveryAddress(id) {

@@ -80,7 +80,9 @@
 import axios from "axios";
 import CartButton from "@/components/CartButton";
 import {mapActions} from "vuex";
+import {APIService} from "@/service/service";
 
+let api = new  APIService();
 export default {
   props: ['id'],
   data: () => ({
@@ -95,7 +97,7 @@ export default {
       'addProductToCart',
     ]),
     retrieveFicheProducteur() {
-      axios.get('http://127.0.0.1:4000/api/exploitations/' + this.id)
+      api.getExploitation(this.id)
           .then(response => {
             this.fiche = response.data.fiche
             this.products = response.data.product

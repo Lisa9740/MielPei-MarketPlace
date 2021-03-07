@@ -114,8 +114,9 @@ import Axios from "axios";
 import userConfig from "@/utils/userConfig";
 import Menu from './Menu.vue'
 import _ from 'lodash';
+import {APIService} from "@/service/service";
 
-
+let api = new APIService();
 export default {
   components: {Menu},
   data: () => ({
@@ -158,7 +159,7 @@ export default {
         }
     },
     retrieveFicheProducteur() {
-      Axios.get('http://127.0.0.1:4000/api/exploitations/' + this.user.id + '/datas')
+      api.getExploitationByUser(this.user.id)
           .then(response => {
             this.fiche = response.data.fiche
             this.products = response.data.product
@@ -168,7 +169,7 @@ export default {
           })
     },
     retrieveLastOrders(element) {
-      Axios.get('http://127.0.0.1:4000/api/exploitations/' +  element + '/orders')
+      api.getExploitationOrders(element)
           .then(response =>{
             this.orders = response.data
             const result = []

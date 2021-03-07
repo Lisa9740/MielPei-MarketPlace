@@ -27,7 +27,9 @@
 <script>
 import Axios from "axios";
 import userConfig from "@/utils/userConfig";
+import {APIService} from "@/service/service";
 
+let api = new APIService();
 export default {
   props: ['isAdding'],
   data: () => ({
@@ -63,7 +65,8 @@ export default {
         telephone: this.telephone,
       }
       if (isReady) {
-        const connectInfo = await Axios.post('http://127.0.0.1:4000/api/livraison', dataSend);
+
+        const connectInfo = await api.createDeliveryAddress(dataSend);
         console.log(connectInfo);
         this.$emit('add', connectInfo.data)
         this.backToSelectedAdresse()

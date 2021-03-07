@@ -186,7 +186,9 @@
 <script>
 import axios from 'axios';
 import Axios from "axios";
+import {APIService} from '@/service/service.js';
 
+let api = new APIService();
 export default {
   name: "Users",
   data() {
@@ -289,7 +291,7 @@ export default {
 
       console.log(dataSend)
 
-        const connectInfo = await Axios.post('http://127.0.0.1:4000/api/user/create', dataSend);
+        const connectInfo = await api.createUser(dataSend);
         console.log(connectInfo);
 
         this.users.push(dataSend)
@@ -313,7 +315,7 @@ export default {
 
       }
 
-      const connectInfo = await Axios.post('http://127.0.0.1:4000/api/user/edit', dataSend);
+      const connectInfo = await api.editUser(dataSend);
       console.log(connectInfo);
       let formattedData = {
         id: this.editedItem.id,
@@ -338,7 +340,8 @@ export default {
     },
     retrieveUsers: function () {
       this.users = [];
-      axios.get('http://127.0.0.1:4000/api/users')
+
+      api.getUsers()
           .then(({data}) => {
             this.users = data;
             console.log("récupération des users", data)

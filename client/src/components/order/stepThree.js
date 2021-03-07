@@ -1,6 +1,8 @@
 import userConfig from "@/utils/userConfig";
 import Axios from "axios";
+import {APIService} from "@/service/service";
 
+let api = new APIService();
 export default {
     name: "StepThree",
     props: ['e1', 'orderData'],
@@ -30,7 +32,9 @@ export default {
             let dataSend = {
                 userId: this.user.id,
             }
-            const connectInfo = await Axios.post('http://127.0.0.1:4000/api/order/payment', dataSend);
+
+
+            const connectInfo = await api.setOrderPaid(dataSend);
             this.flashMessage.success({
                 message: connectInfo.data.message,
                 time: 5000,
