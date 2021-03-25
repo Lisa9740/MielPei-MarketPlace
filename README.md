@@ -27,8 +27,6 @@ Producteurs :
 *  email : producteurd@gmail.com
 *  mot de passe : test
 
-*  email : jd@gmail.com
-*  mot de passe : test
 
 Admin : 
 * admin@gmail.com
