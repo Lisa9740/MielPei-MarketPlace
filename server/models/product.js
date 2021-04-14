@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     inStock: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER,
     description: DataTypes.TEXT,
-    exploitationId : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Product',

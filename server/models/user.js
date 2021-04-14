@@ -10,8 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-        this.Role = this.belongsTo(models.Role)
-        this.Cart = this.belongsTo(models.Cart)
+      this.Cart = this.belongsTo(models.Cart)
+      this.Role = this.belongsTo(models.Role)
+
     }
   };
   User.init({
@@ -20,8 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN,
-    roleId : DataTypes.INTEGER,
-    cartId : DataTypes.INTEGER
+
   }, {
     sequelize,
     modelName: 'User',

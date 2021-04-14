@@ -258,12 +258,7 @@ export default {
         exploitationId: this.ficheId,
         description: element.description,
       }
-
-      console.log(dataSend)
-
       const connectInfo = await api.createProduct(dataSend);
-      console.log(connectInfo);
-
       this.retrieveFicheProducteur()
       this.flashMessage.success({
         message: connectInfo.data.message,
@@ -283,7 +278,7 @@ export default {
 
 
       const connectInfo = await api.editProduct(dataSend);
-      console.log(connectInfo);
+
 
       this.save(dataSend)
 
@@ -296,6 +291,7 @@ export default {
     retrieveFicheProducteur() {
       api.getExploitationByUser(this.user.id)
           .then(response => {
+            console.log("exploitationn", response);
             if (response){
               this.fiche = response.data.fiche
               this.products = response.data.product

@@ -4,9 +4,9 @@ import axios from 'axios';
 let API_URL
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    API_URL = 'http://127.0.0.1:4000/api/'
+    API_URL = 'http://localhost:4000/api'
 } else {
-    API_URL = 'http://api.example.com/api'
+    API_URL = 'http://31.220.54.89/api'
 }
 
 export class APIService {
@@ -25,7 +25,7 @@ export class APIService {
     }
 
     getUserHistoryOrder(id) {
-        const url = `${API_URL}/users/${id}/order/history`;
+        const url = `${API_URL}/${id}/order/history`;
         return axios.get(url);
     }
 
@@ -84,16 +84,21 @@ export class APIService {
 
     editUser(user){
         const url = `${API_URL}/user/edit`;
-        return axios.put(url,user);
+        return axios.post(url,user);
     }
 
     editProduct(product){
         const url = `${API_URL}/products/edit`;
-        return axios.put(url,product);
+        return axios.post(url,product);
     }
 
     setOrderPaid(order){
         const url = `${API_URL}/order/payment`;
-        return axios.put(url,order);
+        return axios.post(url,order);
+    }
+
+    setOrderFinished(order){
+        const url = `${API_URL}/order/status/finished`;
+        return axios.post(url,order);
     }
 }

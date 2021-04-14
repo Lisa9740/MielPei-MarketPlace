@@ -1,7 +1,7 @@
 <template>
 
-  <div v-if="orderData">
-    <h3> Récapitulatif de votre commande #{{ orderData.order.id}}</h3>
+  <div v-if="orderData.length !== 0">
+    <h3> Récapitulatif de votre commande #{{ orderData.order[0].reference}}</h3>
     <v-spacer></v-spacer>
 
     <v-card
@@ -10,7 +10,7 @@
     >
       <v-container>
         <v-row>
-          <v-col v-if="orderData.livraison">
+          <v-col v-if="orderData.livraison.length !== 0">
             <v-list>
               <v-subheader>Adresse de livraison</v-subheader>
               <v-list-item>
@@ -28,16 +28,16 @@
         <v-spacer></v-spacer>
         <div>
           <v-row>
-            <v-col class="d-block justify-center " v-if="orderData.order">
-              <div class="d-block" v-for="(products, index) in orderData.order.products" :key="index">
+            <v-col class="d-block justify-center " v-if="orderData.order.length !== 0">
+              <div class="d-block" v-for="(order, index) in orderData.order" :key="index">
                 <v-row justify="end">
                   <v-col cols="1">
                     <v-img src="https://placehold.it/20x20" width="100px"></v-img>
                   </v-col>
                   <v-col>
-                    {{ products.name }} - {{ products.price }} € - <small> quantité : {{ products.quantity }}</small>
+                    {{ order.products.product.name }} - {{ order.products.product.price }} € - <small> quantité : {{ order.products.product.quantity }}</small>
                     <v-spacer></v-spacer>
-                   {{ products.Exploitation.name}} - {{ products.Exploitation.commune}}
+                    {{ order.products.product.Exploitation.name}} - {{ order.products.product.Exploitation.commune}}
                   </v-col>
                 </v-row>
               </div>
@@ -47,7 +47,7 @@
             </v-col>
           </v-row>
         </div>
-        <v-btn @click="setOrderPaid">Payer</v-btn>
+        <v-btn @click="setOrderPaid()">Payer</v-btn>
       </v-container>
 
     </v-card>

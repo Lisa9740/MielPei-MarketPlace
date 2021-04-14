@@ -102,24 +102,24 @@ export default {
     },
     getTotalPrice() {
       let result = null;
-      let thisOrder = this.orderData.order.products
+      let thisOrder = this.orderData.order
       thisOrder.forEach(function (value) {
-        result += value.price * value.quantity;
+        result += value.products.product.price * value.products.product.quantity;
       })
       return result
     },
     createPDF () {
-      let pdfName = "Facture" + JSON.stringify(this.orderData.order.id);
+      let pdfName = "Facture" + this.orderData.order[0].reference;
       let doc = new jsPDF();
 
-      this.orderData.order.products.forEach( element => {
-        console.log("text", element)
-        this.pdfData.push([element.name, element.quantity, element.Exploitation.name, element.price])
+      this.orderData.order.forEach( element => {
+
+        this.pdfData.push([element.products.product.name, element.products.product.quantity, element.products.product.Exploitation.name, element.products.product.price])
 
       })
 
       doc.text("MielPéi", 10, 20);
-      doc.setFontSize(12).text("Commande #" + JSON.stringify(this.orderData.order.id), 12, 30);
+      doc.setFontSize(12).text("Commande #" + this.orderData.order[0].reference, 12, 30);
       doc.setFontSize(10).text("Adresse de livraison", 15, 40);
       doc.setFontSize(10).text(this.orderData.livraison.name, 15, 45)
       doc.setFontSize(10).text(this.orderData.livraison.adresse, 15, 50)

@@ -32,11 +32,13 @@ exports.login = (req, res) => {
                     expiresIn: 86400 // 24 hours
                 });
 
+                console.log(user)
+
                 res.status(200).send({
                     id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    roleId: user.roleId,
+                    roleId: user.RoleId,
                     token : token
                 });
             }
@@ -55,7 +57,7 @@ exports.register = (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        roleId : 2,
+        RoleId : 2,
         password: bcrypt.hashSync(req.body.password, 8)
     })
         .then(user => {

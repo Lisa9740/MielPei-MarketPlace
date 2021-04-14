@@ -15,6 +15,7 @@ export default {
         firstName: "",
         lastName: "",
         email: "",
+        reference:"",
         verify: "",
         user: JSON.parse(userConfig.getUser()),
         livraisonData: [],
@@ -49,35 +50,37 @@ export default {
         async postOrderData() {
             let isReady = this.$refs.orderForm.validate();
 
+
             let dataSend = {
                 name: this.name,
                 adresse: this.selected.name,
-                userId: this.user.id,
+                UserId: this.user.id,
                 products: this.getCart,
                 status: 1
             }
             if (isReady) {
                 const connectInfo = await api.createOrder(dataSend);
-                console.log('postOrderData', connectInfo.data);
-
                 this.nextStep();
                 this.flashMessage.success({
                     message: connectInfo.data.message,
                     time: 5000,
                 });
+
+                this.reference = connectInfo.data.reference
+                console.log(this.reference)
                 this.retrieveUserOrderData()
             }
         },
 
         retrieveLivraisonOrderData() {
             api.getOrderDeliveryAddress(this.user.id).then(data => {
-                this.livraisonData.push(data.data)
-                console.log(data.data)
+                this.livraisonData.push(data)
             });
         },
 
         retrieveUserOrderData() {
-            api.getOrder(this.user.id).then(data => {
+
+            api.getOrder(this.reference).then(data => {
                 this.$emit("order-data", { order : data.data.order, livraison : this.selected })
             });
         },
@@ -88,7 +91,7 @@ export default {
     },
     created() {
         this.retrieveLivraisonOrderData()
-        console.log('cart', this.getCart)
+
     }
 
 

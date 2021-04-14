@@ -3,7 +3,6 @@ const Product = db.Product
 const Exploitation = db.Exploitation
 const Role = db.Role
 
-/*const Op = db.Sequelize.Op;*/
 
 exports.create = (req, res) => {
     const { name, price, description, inStock ,exploitationId } = req.body
@@ -12,7 +11,7 @@ exports.create = (req, res) => {
         price : price,
         inStock: inStock,
         description : description,
-        exploitationId : exploitationId,
+        ExploitationId : exploitationId,
         quantity : 1
     }).then(data => {
         res.status(200).json(data);
@@ -27,7 +26,7 @@ exports.edit = (req, res) => {
         price : price,
         inStock: inStock,
         description : description,
-        exploitationId : exploitationId,
+        ExploitationId : exploitationId,
         quantity : 1
     }, {
         where: {
@@ -42,7 +41,7 @@ exports.edit = (req, res) => {
 // Retrieve all Computers from the database.
 exports.findAll = (req, res) => {
     Product.findAll({
-        attributes: ['id', 'name','price', 'quantity', 'description', 'exploitationId'],
+        attributes: ['id', 'name','price', 'quantity', 'description', 'ExploitationId'],
         include: [
             {
                 model: Exploitation,

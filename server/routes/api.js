@@ -35,6 +35,8 @@ router.get("/:userId/order", order.getUserOrder);
 
 router.post('/order/payment', order.setUserOrderPaid);
 
+router.post('/order/status/finished', order.setOrderFinished);
+
 router.get('/exploitations', exploitations.findAll);
 
 router.get('/exploitations/:id/orders', order.getExploitationOrder);

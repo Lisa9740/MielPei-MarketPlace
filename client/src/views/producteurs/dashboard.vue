@@ -125,8 +125,7 @@
                               :value=fiche.description
                               hint="Hint text"
                           ></v-textarea>-->
-              <h4>Mes dernières commandes</h4>
-              {{ this.orders}}
+
             </v-card-text>
           </v-card>
         </v-col>

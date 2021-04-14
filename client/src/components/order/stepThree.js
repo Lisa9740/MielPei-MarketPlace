@@ -17,11 +17,14 @@ export default {
 
         getTotalPrice() {
             let result = null;
-            let thisOrder = this.orderData.order.products
+                console.log("hé",this.orderData.order)
+                let thisOrder = this.orderData.order
             thisOrder.forEach(function (value) {
-                result += value.price * value.quantity;
+                result += value.products.product.price * value.products.product.quantity;
             })
-            return result
+                return result
+
+
         },
         getExploitationData(){
 
@@ -29,9 +32,9 @@ export default {
         async setOrderPaid() {
             this.nextStep()
             let dataSend = {
-                userId: this.user.id,
+                userId : this.user.id,
+                reference: this.orderData.order[0].reference,
             }
-
 
             const connectInfo = await api.setOrderPaid(dataSend);
             this.flashMessage.success({

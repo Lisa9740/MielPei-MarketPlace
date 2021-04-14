@@ -21,9 +21,7 @@
     "sequelize-cli": "^6.2.0",
     "jsonwebtoken": "^8.5.1"
   },
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "main": "app.js",
   "engines": {
     "node": "v14.15.4"

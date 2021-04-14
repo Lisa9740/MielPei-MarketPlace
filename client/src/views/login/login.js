@@ -34,7 +34,7 @@ export default {
                 cartProducts: this.getProductsInCart
             }
             if(isReady) {
-                const connectInfo = await Axios.post('http://127.0.0.1:4000/api/login', dataSend);
+                const connectInfo = await Axios.post('http://localhost:4000/api/login', dataSend);
 
                 if(connectInfo.data.token) {
 
@@ -43,13 +43,12 @@ export default {
                     location.href = '/';
                     // this.$router.push('/');
 
-                    console.log('true', connectInfo.data);
                     this.flashMessage.success({
                         message: connectInfo.data.message,
                         time: 5000,
                     });
                 } else {
-                    console.log('false',connectInfo.data);
+
                     this.flashMessage.error({
                         message: connectInfo.data.message,
                         time: 5000,

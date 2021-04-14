@@ -9,7 +9,6 @@
           </template>
         </v-col>
         <v-col>
-          {{ orders.orders }}
           <v-data-table
               :headers="headers"
               :items="orders"
@@ -34,7 +33,7 @@
                 >
                   <v-card>
                     <v-card-title class="headline">
-                     Command #{{editedItem.id}}
+                     Commande #{{editedItem.reference}}
                     </v-card-title>
 
 
@@ -46,25 +45,24 @@
                                 cols="12"
                                 md="6"
                             >
-                              <v-text-field
-                                  v-model="editedItem.status"
-                                  :value="name"
-                                  label="Status"
-                                  required
-                              ></v-text-field>
+                              <span v-if="editedItem.status !== 3">En attente de traitement</span>
+                              <span  v-if="editedItem.status === 3">Terminé</span>
+
                             </v-col>
                           </v-row>
                         </v-form>
-                        {{ editedItem.orders}}
-                        <ul id="example-2">
-                       <li v-for="(products, index) in editedItem.orders.product" :key="index">
-                       {{products.name}}, {{ index}}
-                       </li>
-                        </ul>
+                        <div v-for="products in editedItem.products" :key="products.id">
+                          {{ products.name}}<br>
+                          Quantité : {{ products.quantity}}<br>
+                          Prix total : {{ products.quantity * products.price}}
+
+                        </div>
 
                         <v-btn
-                            color="blue darken-1"
-                            text
+                            class="mt-5"
+                            color="#EDBE58"
+                            @click="setOrderFinished(editedItem)"
+                            v-if="editedItem.status !== 3"
 
                         >
                           Mettre le statut de la commande en traité
@@ -80,6 +78,19 @@
                   </v-card>
                 </v-dialog>
               </v-toolbar>
+            </template>
+            <template v-slot:item.status="{ item }">
+              <v-chip
+                  :color="getColor(item.status)"
+                  dark
+              >
+                <span v-if="item.status === 2">A traité</span>
+                <span v-if="item.status === 3">Traité</span>
+
+              </v-chip>
+            </template>
+            <template v-slot:item.createdAt="{ item }">
+              {{ new Date(item.createdAt) | dateFormat('DD/MM/YYYY hh:mm')  }}
             </template>
             <template v-slot:item.actions="{ item }">
               <v-icon
@@ -112,8 +123,8 @@
 <script>
 import userConfig from "@/utils/userConfig";
 import Menu from './Menu.vue'
-import _ from 'lodash';
 import {APIService} from "@/service/service";
+
 
 let api = new APIService();
 export default {
@@ -133,23 +144,48 @@ export default {
     latitude: "",
     headers: [
       {text: 'ID', value: 'id'},
-      {text: 'Status', value: 'status'},
+      {text: 'Reference', value: 'reference'},
+      {text: 'Produit', value: 'products.product.name'},
+      {text: 'Quantité', value: 'products.product.quantity'},
+      {text: 'Prix (unité)', value: 'products.product.price'},
+      {text: 'Date commande', value: 'createdAt'},
+      {text: 'Status', value: 'status', sortable: true},
       {text: 'Actions', value: 'actions', sortable: true},
     ],
     editedIndex: -1,
     editedItem: {
-      id: '',
-      status:0,
+      id: 0,
+      reference: '',
+      status: 0,
       orders : []
     },
     defaultItem: {
-      id: '',
+      id: 0,
+      reference: '',
       status: '0',
       orders : []
     }
   }),
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+  },
 
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+  },
   methods: {
+    getColor (calories) {
+      if (calories === 2) return 'orange'
+      else if (calories === 3) return 'green'
+      else return 'red'
+    },
     formatStatusValue(orders) {
         if (orders.status === 1) {
           this.deleteItem(orders)
@@ -170,20 +206,31 @@ export default {
     retrieveLastOrders(element) {
       api.getExploitationOrders(element)
           .then(response =>{
-            this.orders = response.data
-            const result = []
+            this.orders = response.data.order
 
-            const grouped = [_.groupBy(this.orders, 'orderId')];
-            console.log("grouped" + grouped[0].length, grouped[0], this.orders)
-            for (let i=0; i<grouped.length; i++){
-              result.push({order : grouped[i][1]})
-            }
-
-            console.log(result)
-            this.formatStatusValue(this.orders)
+            this.formatStatusValue(
+                this.orders
+            )
           })
     },
+
+    async setOrderFinished(element) {
+
+      let dataSend = {
+        id : element.id,
+        reference: element.reference,
+        data: element
+      }
+
+      const connectInfo = await api.setOrderFinished(dataSend);
+      this.save(dataSend.data);
+      this.flashMessage.success({
+        message: connectInfo.data.message,
+        time: 5000,
+      });
+    },
     editItem (item) {
+      console.log(item)
       this.editedIndex = this.orders.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true

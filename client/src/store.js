@@ -84,17 +84,17 @@ export default new Vuex.Store({
 
     actions: {
         getExploitations: ({commit}) => {
-            axios.get('http://127.0.0.1:4000/api/exploitations')
+            axios.get('http://31.220.54.89:4000/api/exploitations')
                 .then(response => {
                     commit('SET_EXPLOITATION', response)
-                    console.log(response.data[0])
+
                 })
 
         },
         getProducts: ({commit}) => {
             api.getApiProducts().then(response => {
                         commit('SET_PRODUCT', response.data)
-                        console.log('products' , response.data)
+
                     })
 
         },

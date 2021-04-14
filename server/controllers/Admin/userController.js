@@ -11,7 +11,7 @@ exports.create = (req, res) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        roleId : roleId,
+        RoleId : roleId,
         password: bcrypt.hashSync('test', 8),
         isActive: isActive
     })
@@ -51,7 +51,7 @@ exports.edit = (req, res) => {
 // Retrieve all Computers from the database.
 exports.findAll = (req, res) => {
     User.findAll({
-        attributes: ['id', 'firstName', 'lastName', 'email', 'isActive' , 'roleId'],
+        attributes: ['id', 'firstName', 'lastName', 'email', 'isActive' , 'RoleId'],
         include: [
             {
                 model: Role,

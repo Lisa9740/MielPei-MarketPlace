@@ -9,7 +9,8 @@ module.exports = {
         name: "Pot de Miel" + i,
         price: 80,
         quantity: 1,
-        description: "hjkhkjhkhkghk",
+        inStock: 100,
+        description: "",
         exploitationId: 1,
         createdAt : new Date(),
         updatedAt : new Date()

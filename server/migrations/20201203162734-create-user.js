@@ -23,17 +23,17 @@ module.exports = {
       isActive : {
         type: Sequelize.TINYINT
       },
-      roleId : {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Roles",
-          key: "id"
-        }
-      },
       cartId: {
         type: Sequelize.INTEGER,
         references: {
           model: "Carts",
+          key: "id"
+        }
+      },
+      roleId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Roles",
           key: "id"
         }
       },

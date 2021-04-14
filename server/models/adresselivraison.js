@@ -18,8 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     adresse: DataTypes.STRING,
     codePostal: DataTypes.INTEGER,
     commune: DataTypes.STRING,
-    telephone: DataTypes.STRING,
-    userId: DataTypes.INTEGER
+    telephone: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'AdresseLivraison',

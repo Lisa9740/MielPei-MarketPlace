@@ -60,13 +60,12 @@ export default {
         adresse: this.adresse,
         commune: this.commune,
         codePostal: this.codePostal,
-        userId: this.user.id,
+        UserId: this.user.id,
         telephone: this.telephone,
       }
       if (isReady) {
 
         const connectInfo = await api.createDeliveryAddress(dataSend);
-        console.log(connectInfo);
         this.$emit('add', connectInfo.data)
         this.backToSelectedAdresse()
         this.flashMessage.success({
