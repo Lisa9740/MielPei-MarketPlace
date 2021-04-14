@@ -16,16 +16,22 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
 
 Accès à la base de donnée :
 
-- remplir vos informations de bdd dans le fichier config.json dans le dossier config
+- remplir vos informations de bdd dans un fichier config.json (qu'il faudra crée) dans le dossier config (en utilisant l'example un fichier database.json)
+- npx sequelize db:create
 - npx sequelize db:migrate
 - npx sequelize db:seed:all
 
 ##Identifiants de connexion :
 
-Producteur : 
+Producteurs : 
 *  email : producteurd@gmail.com
 *  mot de passe : test
+
 
 Admin : 
 * admin@gmail.com
 *  mot de passe : test
+
+
+Lien du site internet :
+http://31.220.54.89:8081/
