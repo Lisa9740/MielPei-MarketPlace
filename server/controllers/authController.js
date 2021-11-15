@@ -28,7 +28,7 @@ exports.login = (req, res) => {
             }
 
             if (result){
-                let token = jwt.sign({ id: user.id }, config.secret, {
+                let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
                     expiresIn: 86400 // 24 hours
                 });
 

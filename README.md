@@ -16,7 +16,7 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
 
 Accès à la base de donnée :
 
-- remplir vos informations de bdd dans un fichier config.json (qu'il faudra crée) dans le dossier config (en utilisant l'example un fichier database.json)
+- remplir vos informations dans un fichier .env (préalablement crée) en copiant le fichier .env.example
 - npx sequelize db:create
 - npx sequelize db:migrate
 - npx sequelize db:seed:all

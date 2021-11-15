@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from "axios";
 import tokenConfig from "@/utils/tokenConfig";
 import userConfig from "@/utils/userConfig";
 import {APIService} from "./service/service.js"
@@ -84,7 +83,7 @@ export default new Vuex.Store({
 
     actions: {
         getExploitations: ({commit}) => {
-            axios.get('http://31.220.54.89:4000/api/exploitations')
+            APIService.prototype.getAllExploitations()
                 .then(response => {
                     commit('SET_EXPLOITATION', response)
 
